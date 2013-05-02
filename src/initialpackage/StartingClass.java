@@ -18,12 +18,15 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	private static final String GAME_NAME = "Game Name Here";
 	private static final int MAGIC_NUMBER_Y = 61;
 	private static final int MAGIC_NUMBER_X = 63;
+	private static final int MAGIC_NUMBER_BACKGROUND = 2160;
 	
 	private Character mainCharacter;
 	private Image image;
 	private Image mainCharacterImage;
+	private Image background;
 	private Graphics second;
 	private URL base;
+	private static Background firstBackground, secondBackground;
 
 	
 
@@ -36,12 +39,14 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		this.setSize(DIM_X, DIM_Y);	
 		this.setBackground(Color.BLACK);
 		this.setFocusable(true);
+		this.addKeyListener(this);
 		Frame frame = (Frame)this.getParent().getParent();
 		frame.setTitle(GAME_NAME);
 		
 		//resource management
 		base = getDocumentBase();
 		this.mainCharacterImage = getImage(base, "data/character.png");
+		this.background = getImage(base, "data/background.png");
 	}
 
 	/** 
@@ -51,6 +56,8 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	public void start() {
 		// TODO Auto-generated method stub
 		super.start();
+		this.firstBackground= new Background(0,0);
+		this.secondBackground = new Background(MAGIC_NUMBER_BACKGROUND,0);
 		this.mainCharacter = new Character();
 		Thread thread = new Thread(this);
 		thread.start();
@@ -81,8 +88,10 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	@Override
 	public void run() {
 		while (true) {
-			repaint();
+			this.firstBackground.update();
+			this.secondBackground.update();
 			this.mainCharacter.update();
+			repaint();
 			try {
 				Thread.sleep(17);
 			} catch (InterruptedException e) {
@@ -114,7 +123,11 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	 * 
 	 */
 	public void paint(Graphics g){
+		g.drawImage(this.background, this.firstBackground.getBackgroundX(), this.firstBackground.getBackgroundY(), this);
+		g.drawImage(this.background, this.secondBackground.getBackgroundX(), this.secondBackground.getBackgroundY(), this);
+
 		g.drawImage(mainCharacterImage, this.mainCharacter.getCenterX() - MAGIC_NUMBER_X, this.mainCharacter.getCenterY() - MAGIC_NUMBER_Y, this);
+		
 	}
 	
 	
@@ -138,6 +151,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		case KeyEvent.VK_UP:
 		case KeyEvent.VK_DOWN:
 			moveType = Character.STOP_MOVEMENT;
+
 			break;
 		case KeyEvent.VK_LEFT:
 			moveType = Character.MOVE_LEFT;
@@ -150,7 +164,6 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 			break;
 		}
 		this.mainCharacter.movement(moveType);
-		
 	}
 
 	/** 
