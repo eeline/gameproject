@@ -1,7 +1,6 @@
 package initialpackage;
 
 import java.awt.Image;
-import java.util.Calendar;
 
 public class Character {
 	/**
@@ -87,8 +86,6 @@ public class Character {
 		this.centerY += speedY;
 		if (this.centerY + this.speedY >= GROUND)
 			this.centerY = GROUND;
-		System.out.println(jumped + " "
-				+ Calendar.getInstance().getTime().getTime());
 		// manage "jumping"
 		if (this.jumped) {
 			this.speedY += 1;
@@ -149,17 +146,18 @@ public class Character {
 			this.isMovingLeft = true;
 			break;
 		case MOVE_JUMP:
-			if(!this.jumped){
+			if (!this.jumped) {
 				this.speedY = JUMP_SPEED;
 				this.jumped = !jumped;
 			}
 			break;
 		case MOVE_FLY:
 			this.speedY = JUMP_SPEED;
-			this.jumped = true; 
+			this.jumped = true;
 			break;
 		case MOVE_DUCK:
 			this.isDucking = true;
+			stop();
 			break;
 		}
 	}
@@ -183,6 +181,7 @@ public class Character {
 	private void stop() {
 		if (this.isDucking) {
 			this.speedX = 0;
+			return;
 		} else {
 			if (!this.isMovingLeft && !this.isMovingRight)
 				this.speedX = 0;

@@ -5,11 +5,9 @@ import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.net.URL;
 
-public class MainLoop extends Applet implements Runnable, KeyListener {
+public class MainLoop extends Applet implements Runnable {
 	// auto generated sUID to satisfy the warning gods
 	private static final long serialVersionUID = 1560999524005463670L;
 
@@ -40,7 +38,7 @@ public class MainLoop extends Applet implements Runnable, KeyListener {
 		this.setSize(DIM_X, DIM_Y);
 		this.setBackground(Color.BLACK);
 		this.setFocusable(true);
-		this.addKeyListener(this);
+
 		Frame frame = (Frame) this.getParent().getParent();
 		frame.setTitle(GAME_NAME);
 
@@ -60,7 +58,9 @@ public class MainLoop extends Applet implements Runnable, KeyListener {
 		this.mainCharacter = new Character(
 				getImage(base, "data/character.png"), getImage(base,
 						"data/jumping.png"), getImage(base, "data/ducking.png"));
-		this.playerCharacterSprite = this.mainCharacter.getSprite(Character.DEFAULT_SPRITE);
+		this.addKeyListener(new KeyboardListener(this.mainCharacter));
+		this.playerCharacterSprite = this.mainCharacter
+				.getSprite(Character.DEFAULT_SPRITE);
 		Thread thread = new Thread(this);
 		thread.start();
 	}
@@ -114,7 +114,6 @@ public class MainLoop extends Applet implements Runnable, KeyListener {
 				e.printStackTrace();
 			}
 		}
-
 	}
 
 	/**
@@ -150,61 +149,9 @@ public class MainLoop extends Applet implements Runnable, KeyListener {
 
 	}
 
-	// KEY EVENT HANDLER:
-	/** 
-	 * 
-	 */
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
 	/**
 	 * handles movement and space bar key presses
 	 */
-	@Override
-	public void keyPressed(KeyEvent e) {
-		switch (e.getKeyCode()) {
-		case KeyEvent.VK_DOWN:
-			this.mainCharacter.move(Character.MOVE_DUCK);
-			break;
-		case KeyEvent.VK_LEFT:
-			this.mainCharacter.move(Character.MOVE_LEFT);
-			break;
-		case KeyEvent.VK_RIGHT:
-			this.mainCharacter.move(Character.MOVE_RIGHT);
-			break;
-		case KeyEvent.VK_UP:
-			this.mainCharacter.move(Character.MOVE_FLY);
-			break;
-		case KeyEvent.VK_SPACE:
-			this.mainCharacter.move(Character.MOVE_JUMP);
-			break;
-		}
-
-	}
-
-	/** 
-	 * 
-	 */
-	@Override
-	public void keyReleased(KeyEvent e) {
-		switch (e.getKeyCode()) {
-		case KeyEvent.VK_SPACE:
-		case KeyEvent.VK_UP:
-			break;
-		case KeyEvent.VK_DOWN:
-			this.mainCharacter.stop(Character.MOVE_DUCK);
-			break;
-		case KeyEvent.VK_LEFT:
-			this.mainCharacter.stop(Character.MOVE_LEFT);
-			break;
-		case KeyEvent.VK_RIGHT:
-			this.mainCharacter.stop(Character.MOVE_RIGHT);
-			break;
-		}
-	}
 
 	public static Background getBackground(int key) {
 		switch (key) {
