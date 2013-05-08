@@ -17,7 +17,7 @@ public class Background {
 		this.backgroundX += this.backgroundSpeedX;
 		
 		if(this.backgroundX <= MAGIC_NUMBER){
-			this.backgroundX += (MAGIC_NUMBER * MAGIC_NUMBER);
+			this.backgroundX += (MAGIC_NUMBER * -2);
 		}
 	}
 
