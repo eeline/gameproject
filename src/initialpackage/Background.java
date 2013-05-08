@@ -41,4 +41,11 @@ public class Background {
 	public int getBackgroundSpeedX() {
 		return backgroundSpeedX;
 	}
+
+	/**
+	 * @param backgroundSpeedX the backgroundSpeedX to set
+	 */
+	public void setBackgroundSpeedX(int backgroundSpeedX) {
+		this.backgroundSpeedX = backgroundSpeedX;
+	}
 }

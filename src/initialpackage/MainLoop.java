@@ -9,7 +9,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.net.URL;
 
-public class StartingClass extends Applet implements Runnable, KeyListener {
+public class MainLoop extends Applet implements Runnable, KeyListener {
 	// auto generated sUID to satisfy the warning gods
 	private static final long serialVersionUID = 1560999524005463670L;
 
@@ -19,33 +19,33 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	private static final int MAGIC_NUMBER_Y = 61;
 	private static final int MAGIC_NUMBER_X = 63;
 	private static final int MAGIC_NUMBER_BACKGROUND = 2160;
-	
+
+	public static final int FIRST_BACKGROUND = 0;
+	public static final int SECOND_BACKGROUND = 1;
+
 	private Character mainCharacter;
 	private Image image;
-	private Image mainCharacterImage;
+	private Image playerCharacterSprite;
 	private Image background;
 	private Graphics second;
 	private URL base;
 	private static Background firstBackground, secondBackground;
-
-	
 
 	/** 
 	 * 
 	 */
 	@Override
 	public void init() {
-		//initial frame generation
-		this.setSize(DIM_X, DIM_Y);	
+		// initial frame generation
+		this.setSize(DIM_X, DIM_Y);
 		this.setBackground(Color.BLACK);
 		this.setFocusable(true);
 		this.addKeyListener(this);
-		Frame frame = (Frame)this.getParent().getParent();
+		Frame frame = (Frame) this.getParent().getParent();
 		frame.setTitle(GAME_NAME);
-		
-		//resource management
+
+		// resource management
 		base = getDocumentBase();
-		this.mainCharacterImage = getImage(base, "data/character.png");
 		this.background = getImage(base, "data/background.png");
 	}
 
@@ -54,11 +54,13 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	 */
 	@Override
 	public void start() {
-		// TODO Auto-generated method stub
 		super.start();
-		this.firstBackground= new Background(0,0);
-		this.secondBackground = new Background(MAGIC_NUMBER_BACKGROUND,0);
-		this.mainCharacter = new Character();
+		MainLoop.firstBackground = new Background(0, 0);
+		MainLoop.secondBackground = new Background(MAGIC_NUMBER_BACKGROUND, 0);
+		this.mainCharacter = new Character(
+				getImage(base, "data/character.png"), getImage(base,
+						"data/jumping.png"), getImage(base, "data/ducking.png"));
+		this.playerCharacterSprite = this.mainCharacter.getSprite(Character.DEFAULT_SPRITE);
 		Thread thread = new Thread(this);
 		thread.start();
 	}
@@ -88,9 +90,22 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	@Override
 	public void run() {
 		while (true) {
-			this.firstBackground.update();
-			this.secondBackground.update();
 			this.mainCharacter.update();
+			if (this.mainCharacter.isJumped()) {
+				this.playerCharacterSprite = this.mainCharacter
+						.getSprite(Character.JUMP_SPRITE);
+			} else if (this.mainCharacter.isDucked()) {
+				this.playerCharacterSprite = this.mainCharacter
+						.getSprite(Character.DUCK_SPRITE);
+			} else if (!this.mainCharacter.isJumped()
+					&& !this.mainCharacter.isDucked()) {
+				this.playerCharacterSprite = this.mainCharacter
+						.getSprite(Character.DEFAULT_SPRITE);
+
+			}
+
+			MainLoop.firstBackground.update();
+			MainLoop.secondBackground.update();
 			repaint();
 			try {
 				Thread.sleep(17);
@@ -101,37 +116,41 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		}
 
 	}
-	
+
 	/**
 	 * 
 	 */
-	public void update(Graphics g){
-		if(image == null){
+	public void update(Graphics g) {
+		if (image == null) {
 			image = createImage(this.getWidth(), this.getHeight());
 			second = image.getGraphics();
 		}
-		
+
 		second.setColor(this.getBackground());
 		second.fillRect(0, 0, this.getWidth(), this.getHeight());
 		second.setColor(getForeground());
 		paint(second);
-		
-		g.drawImage(image,0,0,this);
+
+		g.drawImage(image, 0, 0, this);
 	}
-	
+
 	/**
 	 * 
 	 */
-	public void paint(Graphics g){
-		g.drawImage(this.background, this.firstBackground.getBackgroundX(), this.firstBackground.getBackgroundY(), this);
-		g.drawImage(this.background, this.secondBackground.getBackgroundX(), this.secondBackground.getBackgroundY(), this);
+	public void paint(Graphics g) {
+		g.drawImage(this.background, MainLoop.firstBackground.getBackgroundX(),
+				MainLoop.firstBackground.getBackgroundY(), this);
+		g.drawImage(this.background,
+				MainLoop.secondBackground.getBackgroundX(),
+				MainLoop.secondBackground.getBackgroundY(), this);
 
-		g.drawImage(mainCharacterImage, this.mainCharacter.getCenterX() - MAGIC_NUMBER_X, this.mainCharacter.getCenterY() - MAGIC_NUMBER_Y, this);
-		
+		g.drawImage(playerCharacterSprite, this.mainCharacter.getCenterX()
+				- MAGIC_NUMBER_X, this.mainCharacter.getCenterY()
+				- MAGIC_NUMBER_Y, this);
+
 	}
-	
-	
-	//KEY EVENT HANDLER:
+
+	// KEY EVENT HANDLER:
 	/** 
 	 * 
 	 */
@@ -146,24 +165,24 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
-		int moveType = Character.STOP_MOVEMENT;
 		switch (e.getKeyCode()) {
-		case KeyEvent.VK_UP:
 		case KeyEvent.VK_DOWN:
-			moveType = Character.STOP_MOVEMENT;
-
+			this.mainCharacter.move(Character.MOVE_DUCK);
 			break;
 		case KeyEvent.VK_LEFT:
-			moveType = Character.MOVE_LEFT;
+			this.mainCharacter.move(Character.MOVE_LEFT);
 			break;
 		case KeyEvent.VK_RIGHT:
-			moveType = Character.MOVE_RIGHT;
+			this.mainCharacter.move(Character.MOVE_RIGHT);
+			break;
+		case KeyEvent.VK_UP:
+			this.mainCharacter.move(Character.MOVE_FLY);
 			break;
 		case KeyEvent.VK_SPACE:
-			moveType = Character.JUMP;
+			this.mainCharacter.move(Character.MOVE_JUMP);
 			break;
 		}
-		this.mainCharacter.movement(moveType);
+
 	}
 
 	/** 
@@ -172,13 +191,29 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	@Override
 	public void keyReleased(KeyEvent e) {
 		switch (e.getKeyCode()) {
-		case KeyEvent.VK_UP:
-		case KeyEvent.VK_DOWN:
-		case KeyEvent.VK_LEFT:
-		case KeyEvent.VK_RIGHT:
 		case KeyEvent.VK_SPACE:
-			this.mainCharacter.movement(Character.STOP_MOVEMENT);
+		case KeyEvent.VK_UP:
 			break;
+		case KeyEvent.VK_DOWN:
+			this.mainCharacter.stop(Character.MOVE_DUCK);
+			break;
+		case KeyEvent.VK_LEFT:
+			this.mainCharacter.stop(Character.MOVE_LEFT);
+			break;
+		case KeyEvent.VK_RIGHT:
+			this.mainCharacter.stop(Character.MOVE_RIGHT);
+			break;
+		}
+	}
+
+	public static Background getBackground(int key) {
+		switch (key) {
+		case MainLoop.FIRST_BACKGROUND:
+			return MainLoop.firstBackground;
+		case MainLoop.SECOND_BACKGROUND:
+			return MainLoop.secondBackground;
+		default:
+			return null;
 		}
 	}
 
