@@ -1,4 +1,4 @@
-package initialpackage;
+package main;
 
 import java.applet.Applet;
 import java.awt.Color;
@@ -6,6 +6,8 @@ import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.net.URL;
+
+import characters.Character;
 
 public class MainLoop extends Applet implements Runnable {
 	// auto generated sUID to satisfy the warning gods

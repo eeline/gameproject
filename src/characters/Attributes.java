@@ -1,4 +1,4 @@
-package initialpackage;
+package characters;
 
 /**
  * attributes MUST be set individually before using them or you will get a LOT

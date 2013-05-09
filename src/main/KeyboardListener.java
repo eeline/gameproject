@@ -1,7 +1,9 @@
-package initialpackage;
+package main;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
+import characters.Character;
 
 public class KeyboardListener implements KeyListener {
 	private Character character;

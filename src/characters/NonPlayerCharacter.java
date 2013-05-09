@@ -1,4 +1,4 @@
-package initialpackage;
+package characters;
 
 public class NonPlayerCharacter extends Attributes {
 

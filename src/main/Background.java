@@ -1,4 +1,4 @@
-package initialpackage;
+package main;
 
 public class Background {
 	private int backgroundX;

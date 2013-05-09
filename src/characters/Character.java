@@ -1,6 +1,10 @@
-package initialpackage;
+package characters;
+
 
 import java.awt.Image;
+
+import main.Background;
+import main.MainLoop;
 
 public class Character extends Attributes{
 	/**
