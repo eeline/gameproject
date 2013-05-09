@@ -7,7 +7,7 @@ package characters;
  * @author ee
  * 
  */
-public abstract class Attributes {
+public class Attributes {
 	private int current_health;
 	private int max_health;
 	private int current_power;

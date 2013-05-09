@@ -2,7 +2,7 @@ package characters;
 
 import main.Background;
 
-public class Position {
+public abstract class Position {
 	/**
 	 * character information
 	 */

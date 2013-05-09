@@ -5,8 +5,8 @@ import java.awt.Image;
 import main.Background;
 import main.MainLoop;
 
-public class PlayerCharacter extends Attributes {
-	Position position = new Position();
+public class PlayerCharacter extends Position {
+	private final Attributes attributes;
 	private Image defaultImage;
 	private Image duckingImage;
 	private Image jumpingImage;
@@ -27,7 +27,7 @@ public class PlayerCharacter extends Attributes {
 
 	public PlayerCharacter(Image defaultImage, Image jumpingImage,
 			Image duckingImage) {
-		super(10, 10, 10);
+		this.attributes = new Attributes(10, 10, 10);
 		this.defaultImage = defaultImage;
 		this.jumpingImage = jumpingImage;
 		this.duckingImage = duckingImage;
@@ -37,7 +37,7 @@ public class PlayerCharacter extends Attributes {
 	 * updates X and Y position. Not sure about the 150 number
 	 */
 	public void update() {
-		this.position.update(firstBackground, secondBackground);
+		super.update(firstBackground, secondBackground);
 	}
 
 	/**
@@ -45,15 +45,15 @@ public class PlayerCharacter extends Attributes {
 	 */
 
 	public void move(final int moveKey) {
-		this.position.move(moveKey);
+		super.move(moveKey);
 	}
 
 	public void stop(final int moveKey) {
-		this.position.stop(moveKey);
+		super.stop(moveKey);
 	}
 
 	public Image getSprite() {
-		final int key = this.position.positionCheck();
+		final int key = super.positionCheck();
 		switch (key) {
 		case DEFAULT_SPRITE:
 			return this.defaultImage;
@@ -67,9 +67,9 @@ public class PlayerCharacter extends Attributes {
 	}
 	
 	public int getCenterX(){
-		return this.position.getCenterX();
+		return super.getCenterX();
 	}
 	public int getCenterY(){
-		return this.position.getCenterY();
+		return super.getCenterY();
 	}
 }
