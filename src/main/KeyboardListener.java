@@ -3,30 +3,31 @@ package main;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import characters.Character;
+import characters.PlayerCharacter;
+import characters.Position;
 
 public class KeyboardListener implements KeyListener {
-	private Character character;
-	KeyboardListener(Character character){
+	private PlayerCharacter character;
+	KeyboardListener(PlayerCharacter character){
 		this.character = character;
 	}
 	@Override
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_DOWN:
-			character.move(Character.MOVE_DUCK);
+			character.move(Position.MOVE_DUCK);
 			break;
 		case KeyEvent.VK_LEFT:
-			character.move(Character.MOVE_LEFT);
+			character.move(Position.MOVE_LEFT);
 			break;
 		case KeyEvent.VK_RIGHT:
-			character.move(Character.MOVE_RIGHT);
+			character.move(Position.MOVE_RIGHT);
 			break;
 		case KeyEvent.VK_UP:
-			character.move(Character.MOVE_FLY);
+			character.move(Position.MOVE_FLY);
 			break;
 		case KeyEvent.VK_SPACE:
-			character.move(Character.MOVE_JUMP);
+			character.move(Position.MOVE_JUMP);
 			break;
 		}
 
@@ -42,13 +43,13 @@ public class KeyboardListener implements KeyListener {
 		case KeyEvent.VK_UP:
 			break;
 		case KeyEvent.VK_DOWN:
-			character.stop(Character.MOVE_DUCK);
+			character.stop(Position.MOVE_DUCK);
 			break;
 		case KeyEvent.VK_LEFT:
-			character.stop(Character.MOVE_LEFT);
+			character.stop(Position.MOVE_LEFT);
 			break;
 		case KeyEvent.VK_RIGHT:
-			character.stop(Character.MOVE_RIGHT);
+			character.stop(Position.MOVE_RIGHT);
 			break;
 		}
 	}

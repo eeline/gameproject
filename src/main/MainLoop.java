@@ -7,7 +7,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.net.URL;
 
-import characters.Character;
+import characters.PlayerCharacter;
 
 public class MainLoop extends Applet implements Runnable {
 	// auto generated sUID to satisfy the warning gods
@@ -25,7 +25,7 @@ public class MainLoop extends Applet implements Runnable {
 	public static final int SECOND_BACKGROUND = 1;
 
 	// component objects that need to be updated and maintained
-	private Character mainCharacter;
+	private PlayerCharacter mainCharacter;
 	private Image image;
 	private Image playerCharacterSprite;
 	private Image background;
@@ -60,12 +60,11 @@ public class MainLoop extends Applet implements Runnable {
 		MainLoop.firstBackground = new Background(0, 0);
 		MainLoop.secondBackground = new Background(
 				Background.BACKGROUND_LENGTH_X, 0);
-		this.mainCharacter = new Character(
-				getImage(base, "data/character.png"), getImage(base,
-						"data/jumping.png"), getImage(base, "data/ducking.png"));
+		this.mainCharacter = new PlayerCharacter(getImage(base,
+				"data/character.png"), getImage(base, "data/jumping.png"),
+				getImage(base, "data/ducking.png"));
 		this.addKeyListener(new KeyboardListener(this.mainCharacter));
-		this.playerCharacterSprite = this.mainCharacter
-				.getSprite(Character.DEFAULT_SPRITE);
+		this.playerCharacterSprite = this.mainCharacter.getSprite();
 		Thread thread = new Thread(this);
 		thread.start();
 	}
@@ -96,21 +95,7 @@ public class MainLoop extends Applet implements Runnable {
 	public void run() {
 		while (true) {
 			this.mainCharacter.update();
-			if (this.mainCharacter.isJumped()) {
-				this.playerCharacterSprite = this.mainCharacter
-						.getSprite(Character.JUMP_SPRITE);
-			} else if (this.mainCharacter.isDucked()
-					&& this.mainCharacter.isMovingOnX()) {
-				this.playerCharacterSprite = this.mainCharacter
-						.getSprite(Character.DEFAULT_SPRITE);
-			} else if (this.mainCharacter.isDucked()) {
-				this.playerCharacterSprite = this.mainCharacter
-						.getSprite(Character.DUCK_SPRITE);
-			} else if (!this.mainCharacter.isJumped()
-					&& !this.mainCharacter.isDucked()) {
-				this.playerCharacterSprite = this.mainCharacter
-						.getSprite(Character.DEFAULT_SPRITE);
-			}
+			this.playerCharacterSprite = this.mainCharacter.getSprite();
 
 			MainLoop.firstBackground.update();
 			MainLoop.secondBackground.update();
