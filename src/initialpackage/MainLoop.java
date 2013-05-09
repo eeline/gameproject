@@ -11,16 +11,18 @@ public class MainLoop extends Applet implements Runnable {
 	// auto generated sUID to satisfy the warning gods
 	private static final long serialVersionUID = 1560999524005463670L;
 
-	private static final int DIM_X = 800;
-	private static final int DIM_Y = 480;
-	private static final String GAME_NAME = "Game Name Here";
-	private static final int MAGIC_NUMBER_Y = 61;
-	private static final int MAGIC_NUMBER_X = 63;
-	private static final int MAGIC_NUMBER_BACKGROUND = 2160;
+	// important constants that are only needed here
+	private static final int DIM_X = 800; // frame size info
+	private static final int DIM_Y = 480; // frame size info
+	private static final String GAME_NAME = "Game Name Here"; // title
+	private static final int MAGIC_NUMBER_Y = 61; // related to character
+	private static final int MAGIC_NUMBER_X = 63; // related to character
 
+	// which background is it?
 	public static final int FIRST_BACKGROUND = 0;
 	public static final int SECOND_BACKGROUND = 1;
 
+	// component objects that need to be updated and maintained
 	private Character mainCharacter;
 	private Image image;
 	private Image playerCharacterSprite;
@@ -54,7 +56,8 @@ public class MainLoop extends Applet implements Runnable {
 	public void start() {
 		super.start();
 		MainLoop.firstBackground = new Background(0, 0);
-		MainLoop.secondBackground = new Background(MAGIC_NUMBER_BACKGROUND, 0);
+		MainLoop.secondBackground = new Background(
+				Background.BACKGROUND_LENGTH_X, 0);
 		this.mainCharacter = new Character(
 				getImage(base, "data/character.png"), getImage(base,
 						"data/jumping.png"), getImage(base, "data/ducking.png"));
@@ -94,6 +97,10 @@ public class MainLoop extends Applet implements Runnable {
 			if (this.mainCharacter.isJumped()) {
 				this.playerCharacterSprite = this.mainCharacter
 						.getSprite(Character.JUMP_SPRITE);
+			} else if (this.mainCharacter.isDucked()
+					&& this.mainCharacter.isMovingOnX()) {
+				this.playerCharacterSprite = this.mainCharacter
+						.getSprite(Character.DEFAULT_SPRITE);
 			} else if (this.mainCharacter.isDucked()) {
 				this.playerCharacterSprite = this.mainCharacter
 						.getSprite(Character.DUCK_SPRITE);
@@ -101,7 +108,6 @@ public class MainLoop extends Applet implements Runnable {
 					&& !this.mainCharacter.isDucked()) {
 				this.playerCharacterSprite = this.mainCharacter
 						.getSprite(Character.DEFAULT_SPRITE);
-
 			}
 
 			MainLoop.firstBackground.update();

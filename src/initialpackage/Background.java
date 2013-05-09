@@ -2,10 +2,10 @@ package initialpackage;
 
 public class Background {
 	private int backgroundX;
-	private int backgroundY;
+	private final int backgroundY;
 	private int backgroundSpeedX;
 	
-	private static int MAGIC_NUMBER = -2160;
+	public static final int BACKGROUND_LENGTH_X = -2160;
 	
 	public Background(int x, int y){
 		this.backgroundX = x;
@@ -16,8 +16,8 @@ public class Background {
 	public void update(){
 		this.backgroundX += this.backgroundSpeedX;
 		
-		if(this.backgroundX <= MAGIC_NUMBER){
-			this.backgroundX += (MAGIC_NUMBER * -2);
+		if(this.backgroundX <= BACKGROUND_LENGTH_X){
+			this.backgroundX += (BACKGROUND_LENGTH_X * -2);
 		}
 	}
 

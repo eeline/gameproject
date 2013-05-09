@@ -2,7 +2,7 @@ package initialpackage;
 
 import java.awt.Image;
 
-public class Character {
+public class Character extends Attributes{
 	/**
 	 * character information
 	 */
@@ -18,8 +18,9 @@ public class Character {
 	private Image defaultImage;
 	private Image duckingImage;
 	private Image jumpingImage;
+	private boolean justDucked;
 	/**
-	 * movement constants
+	 * private movement constants
 	 */
 	private static final int JUMP_SPEED = -15;
 	private static final int MOVE_SPEED = 5;
@@ -31,7 +32,7 @@ public class Character {
 	private static final int SCROLL_BORDER = 200;
 	private static final int ZERO_BOUND_X = 60;
 	/**
-	 * movement constants
+	 * public directional indicator constants
 	 * 
 	 */
 	public static final int MOVE_RIGHT = 1;
@@ -57,6 +58,7 @@ public class Character {
 	}
 
 	public Character(Image defaultImage, Image jumpingImage, Image duckingImage) {
+		super(10, 10, 10);
 		this.defaultImage = defaultImage;
 		this.jumpingImage = jumpingImage;
 		this.duckingImage = duckingImage;
@@ -140,10 +142,12 @@ public class Character {
 		case MOVE_RIGHT:
 			this.speedX = MOVE_SPEED;
 			this.isMovingRight = true;
+			this.justDucked = false;
 			break;
 		case MOVE_LEFT:
 			this.speedX = -MOVE_SPEED;
 			this.isMovingLeft = true;
+			this.justDucked = false;
 			break;
 		case MOVE_JUMP:
 			if (!this.jumped) {
@@ -181,6 +185,7 @@ public class Character {
 	private void stop() {
 		if (this.isDucking) {
 			this.speedX = 0;
+			this.justDucked = true;
 			return;
 		} else {
 			if (!this.isMovingLeft && !this.isMovingRight)
@@ -204,7 +209,11 @@ public class Character {
 			return null;
 		}
 	}
-
+	public boolean isMovingOnX(){
+		if((this.isMovingLeft || this.isMovingRight) && !this.justDucked)
+			return true;
+		else return false;
+	}
 	public boolean isDucked() {
 		return this.isDucking;
 	}
