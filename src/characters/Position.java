@@ -1,33 +1,32 @@
 package characters;
 
-import main.Background;
 
 public abstract class Position {
 	/**
 	 * character information
 	 */
-	private int centerX = 100;
-	private int centerY = GROUND;
-	private boolean jumped = false;
-	private boolean isMovingLeft = false;
-	private boolean isMovingRight = false;
-	private boolean isDucking = false;
-	private int speedX = 0;
-	private int speedY = 1;
+	protected int centerX = 100;
+	protected int centerY = GROUND;
+	protected boolean isJumped = false;
+	protected boolean isMovingLeft = false;
+	protected boolean isMovingRight = false;
+	protected boolean isDucking = false;
+	protected int speedX = 0;
+	protected int speedY = 1;
 
 	private boolean justDucked;
 	/**
 	 * private movement constants
 	 */
-	private static final int JUMP_SPEED = -15;
-	private static final int MOVE_SPEED = 5;
+	protected static final int JUMP_SPEED = -15;
+	protected static final int MOVE_SPEED = 5;
 
 	/**
 	 * border constants
 	 */
-	private static final int GROUND = 382;
-	private static final int SCROLL_BORDER = 300;
-	private static final int ZERO_BOUND_X = 60;
+	protected static final int GROUND = 382;
+	protected static final int SCROLL_BORDER = 300;
+	protected static final int ZERO_BOUND_X = 60;
 	/**
 	 * public directional indicator constants
 	 * 
@@ -41,46 +40,13 @@ public abstract class Position {
 	/**
 	 * sprite keys
 	 */
-	public Position() {
+	protected Position() {
 
 	}
 
-	public void update(Background first, Background second) {
-		// manage X transition
-		if (this.speedX < 0)
-			this.centerX += this.speedX;
-		if (this.speedX == 0 || this.speedX < 0) {
-			first.setBackgroundSpeedX(0);
-			second.setBackgroundSpeedX(0);
-		}
+	public abstract void update();
 
-		if (this.centerX <= SCROLL_BORDER && this.speedX > 0)
-			this.centerX += this.speedX;
-
-		if (this.speedX > 0 && this.centerX > 200) {
-			first.setBackgroundSpeedX(-MOVE_SPEED);
-			second.setBackgroundSpeedX(-MOVE_SPEED);
-		}
-
-		// manage Y transition
-		this.centerY += speedY;
-		if (this.centerY + this.speedY >= GROUND)
-			this.centerY = GROUND;
-		// manage "jumping"
-		if (this.jumped) {
-			this.speedY += 1;
-			if (this.centerY + this.speedY >= GROUND) {
-				this.centerY = GROUND;
-				this.jumped = !jumped;
-			}
-		}
-
-		// enforces zero bound
-		if (this.centerX + this.speedX <= ZERO_BOUND_X)
-			this.centerX = ZERO_BOUND_X + 1;
-	}
-
-	public void move(final int moveKey) {
+	protected void move(final int moveKey) {
 		switch (moveKey) {
 		case MOVE_RIGHT:
 			this.speedX = MOVE_SPEED;
@@ -93,14 +59,14 @@ public abstract class Position {
 			this.justDucked = false;
 			break;
 		case MOVE_JUMP:
-			if (!this.jumped) {
+			if (!this.isJumped) {
 				this.speedY = JUMP_SPEED;
-				this.jumped = !jumped;
+				this.isJumped = !isJumped;
 			}
 			break;
 		case MOVE_FLY:
 			this.speedY = JUMP_SPEED;
-			this.jumped = true;
+			this.isJumped = true;
 			break;
 		case MOVE_DUCK:
 			this.isDucking = true;
@@ -109,7 +75,7 @@ public abstract class Position {
 		}
 	}
 
-	public void stop(final int moveKey) {
+	protected void stop(final int moveKey) {
 		switch (moveKey) {
 		case MOVE_RIGHT:
 			this.isMovingRight = false;
@@ -140,59 +106,28 @@ public abstract class Position {
 		}
 	}
 
-	public int getCenterX() {
-		return centerX;
-	}
-
-	/**
-	 * @return the centerY
-	 */
-	public int getCenterY() {
-		return centerY;
-	}
-
-	/**
-	 * @return the jumped
-	 */
-	public boolean isJumped() {
-		return jumped;
-	}
-
-	/**
-	 * @return the speedX
-	 */
-	public int getSpeedX() {
-		return speedX;
-	}
-
-	/**
-	 * @return the speedY
-	 */
-	public int getSpeedY() {
-		return speedY;
-	}
-
-	public boolean isMovingOnX() {
+	protected boolean isMovingOnX() {
 		if ((this.isMovingLeft || this.isMovingRight) && !this.justDucked)
 			return true;
 		else
 			return false;
 	}
 
-	public boolean isDucked() {
-		return this.isDucking;
-	}
+	protected int positionCheck() {
 
-	public int positionCheck() {
-
-		if (isJumped()) {
+		if (this.isJumped) {
 			return PlayerCharacter.JUMP_SPRITE;
-		} else if (isDucked() && isMovingOnX()) {
+		} else if (this.isDucking && isMovingOnX()) {
 			return PlayerCharacter.DEFAULT_SPRITE;
-		} else if (isDucked()) {
+		} else if (this.isDucking) {
 			return PlayerCharacter.DUCK_SPRITE;
-		} else if (!isJumped() && !isDucked()) {
+		} else if (!this.isJumped && !this.isDucking) {
 			return PlayerCharacter.DEFAULT_SPRITE;
 		} else return -1;
+	}
+
+	protected int getGround() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

@@ -17,12 +17,12 @@ public class PlayerCharacter extends Position {
 	/**
 	 * background
 	 */
-	private static final Background firstBackground;
-	private static final Background secondBackground;
+	private static final Background first;
+	private static final Background second;
 
 	static {
-		firstBackground = MainLoop.getBackground(MainLoop.FIRST_BACKGROUND);
-		secondBackground = MainLoop.getBackground(MainLoop.SECOND_BACKGROUND);
+		first = MainLoop.getBackground(MainLoop.FIRST_BACKGROUND);
+		second = MainLoop.getBackground(MainLoop.SECOND_BACKGROUND);
 	}
 
 	public PlayerCharacter(Image defaultImage, Image jumpingImage,
@@ -37,7 +37,37 @@ public class PlayerCharacter extends Position {
 	 * updates X and Y position. Not sure about the 150 number
 	 */
 	public void update() {
-		super.update(firstBackground, secondBackground);
+		if (this.speedX < 0)
+			this.centerX += this.speedX;
+		if (this.speedX == 0 || this.speedX < 0) {
+			first.setBackgroundSpeedX(0);
+			second.setBackgroundSpeedX(0);
+		}
+
+		if (this.centerX <= SCROLL_BORDER && this.speedX > 0)
+			this.centerX += this.speedX;
+
+		if (this.speedX > 0 && this.centerX > 200) {
+			first.setBackgroundSpeedX(-MOVE_SPEED);
+			second.setBackgroundSpeedX(-MOVE_SPEED);
+		}
+
+		// manage Y transition
+		this.centerY += speedY;
+		if (this.centerY + this.speedY >= GROUND)
+			this.centerY = GROUND;
+		// manage "jumping"
+		if (isJumped) {
+			this.speedY += 1;
+			if (this.centerY + this.speedY >= GROUND) {
+				this.centerY = GROUND;
+				isJumped = !isJumped;
+			}
+		}
+
+		// enforces zero bound
+		if (this.centerX + this.speedX <= ZERO_BOUND_X)
+			this.centerX = ZERO_BOUND_X + 1;
 	}
 
 	/**
@@ -65,11 +95,12 @@ public class PlayerCharacter extends Position {
 			return null;
 		}
 	}
-	
-	public int getCenterX(){
-		return super.getCenterX();
+
+	public int getCenterX() {
+		return centerX;
 	}
-	public int getCenterY(){
-		return super.getCenterY();
+
+	public int getCenterY() {
+		return centerY;
 	}
 }

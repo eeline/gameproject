@@ -1,16 +1,19 @@
 package characters;
 
-import main.Background;
-import main.MainLoop;
 
-public class NonPlayerCharacter extends Position {
-	final Attributes attributes;
 
-	private final Background background = MainLoop
-			.getBackground(MainLoop.FIRST_BACKGROUND);
-
+public abstract class NonPlayerCharacter extends Position {
+	protected final Attributes attributes;
 	public NonPlayerCharacter(int health, int power, int speed) {
 		attributes = new Attributes(health, power, speed);
 	}
 
+	public void update() {
+		centerX += speedX;
+		speedX=this.attributes.getAttribute(MOVE_SPEED);
+	}
+
+	public abstract void die();
+
+	public abstract void attack();
 }

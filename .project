@@ -20,5 +20,10 @@
 			<type>2</type>
 			<location>/home/ee/git/gameproject/src/data</location>
 		</link>
+		<link>
+			<name>src/data/heliboy.png</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/Downloads/heliboy.png</locationURI>
+		</link>
 	</linkedResources>
 </projectDescription>

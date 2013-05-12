@@ -119,6 +119,10 @@ public class Attributes {
 			return this.current_power;
 		case MAX_POWER_KEY:
 			return this.max_power;
+		case CURRENT_SPEED_KEY:
+			return this.current_speed;
+		case MAX_SPEED_KEY:
+			return this.max_speed;
 		default:
 			return -1;
 		}

@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.net.URL;
 
+import characters.HelicopterEnemy;
 import characters.PlayerCharacter;
 
 public class MainLoop extends Applet implements Runnable {
@@ -26,6 +27,7 @@ public class MainLoop extends Applet implements Runnable {
 
 	// component objects that need to be updated and maintained
 	private PlayerCharacter mainCharacter;
+	private HelicopterEnemy heliBadGuy;
 	private Image image;
 	private Image playerCharacterSprite;
 	private Image background;
@@ -63,6 +65,9 @@ public class MainLoop extends Applet implements Runnable {
 		this.mainCharacter = new PlayerCharacter(getImage(base,
 				"data/character.png"), getImage(base, "data/jumping.png"),
 				getImage(base, "data/ducking.png"));
+		this.heliBadGuy = new HelicopterEnemy(1, 1,
+				MainLoop.firstBackground.getBackgroundSpeedX(), 500, 360,
+				getImage(base, "data/heliboy.png"));
 		this.addKeyListener(new KeyboardListener(this.mainCharacter));
 		this.playerCharacterSprite = this.mainCharacter.getSprite();
 		Thread thread = new Thread(this);
@@ -96,6 +101,7 @@ public class MainLoop extends Applet implements Runnable {
 		while (true) {
 			this.mainCharacter.update();
 			this.playerCharacterSprite = this.mainCharacter.getSprite();
+			this.heliBadGuy.update();
 
 			MainLoop.firstBackground.update();
 			MainLoop.secondBackground.update();
@@ -135,10 +141,11 @@ public class MainLoop extends Applet implements Runnable {
 		g.drawImage(this.background,
 				MainLoop.secondBackground.getBackgroundX(),
 				MainLoop.secondBackground.getBackgroundY(), this);
-
 		g.drawImage(playerCharacterSprite, this.mainCharacter.getCenterX()
 				- MAGIC_NUMBER_X, this.mainCharacter.getCenterY()
 				- MAGIC_NUMBER_Y, this);
+		g.drawImage(this.heliBadGuy.getImage(), this.heliBadGuy.getX() - 48,
+				this.heliBadGuy.getY() - 48, this);
 
 	}
 
