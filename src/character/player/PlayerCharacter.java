@@ -1,6 +1,9 @@
-package characters;
+package character.player;
 
 import java.awt.Image;
+
+import character.Attributes;
+import character.nonplayercharacter.Position;
 
 import main.Background;
 import main.MainLoop;

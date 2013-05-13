@@ -1,4 +1,4 @@
-package characters;
+package character;
 
 /**
  * attributes MUST be set individually before using them or you will get a LOT
@@ -109,7 +109,7 @@ public class Attributes {
 	 * @return returns the attribute (use for checks, exterior modification will
 	 *         NOT be accepted) -1 indicates an invalid value
 	 */
-	protected int getAttribute(final int key) {
+	public int getAttribute(final int key) {
 		switch (key) {
 		case CURRENT_HEALTH_KEY:
 			return this.current_health;

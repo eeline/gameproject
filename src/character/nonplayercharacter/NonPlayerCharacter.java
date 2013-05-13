@@ -1,9 +1,12 @@
-package characters;
+package character.nonplayercharacter;
+
+import character.Attributes;
 
 
 
 public abstract class NonPlayerCharacter extends Position {
 	protected final Attributes attributes;
+	
 	public NonPlayerCharacter(int health, int power, int speed) {
 		attributes = new Attributes(health, power, speed);
 	}

@@ -7,16 +7,16 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.net.URL;
 
-import characters.HelicopterEnemy;
-import characters.PlayerCharacter;
+import character.nonplayercharacter.HelicopterEnemy;
+import character.player.PlayerCharacter;
 
 public class MainLoop extends Applet implements Runnable {
 	// auto generated sUID to satisfy the warning gods
 	private static final long serialVersionUID = 1560999524005463670L;
 
 	// important constants that are only needed here
-	private static final int DIM_X = 800; // frame size info
-	private static final int DIM_Y = 480; // frame size info
+	public static final int DIM_X = 800; // frame size info
+	public static final int DIM_Y = 480; // frame size info
 	private static final String GAME_NAME = "Game Name Here"; // title
 	private static final int MAGIC_NUMBER_Y = 61; // related to character
 	private static final int MAGIC_NUMBER_X = 63; // related to character

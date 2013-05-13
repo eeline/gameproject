@@ -1,4 +1,6 @@
-package characters;
+package character.nonplayercharacter;
+
+import character.player.PlayerCharacter;
 
 
 public abstract class Position {

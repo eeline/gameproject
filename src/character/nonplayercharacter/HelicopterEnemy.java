@@ -1,10 +1,10 @@
 /**
  * 
  */
-package characters;
+package character.nonplayercharacter;
 
 import java.awt.Image;
-import java.lang.Math;
+import java.util.ArrayList;
 
 /**
  * @author ee
@@ -15,6 +15,7 @@ public class HelicopterEnemy extends NonPlayerCharacter {
 	private boolean alternate = true;
 	private final int initialCenterY;
 	private final int tooHighCenterY;
+	private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 
 	/**
 	 * @param health
@@ -30,7 +31,7 @@ public class HelicopterEnemy extends NonPlayerCharacter {
 		super.centerY = centerY;
 		this.image = image;
 		this.initialCenterY = centerY;
-		this.tooHighCenterY = initialCenterY -80;
+		this.tooHighCenterY = initialCenterY - 80;
 	}
 
 	/*
@@ -44,26 +45,26 @@ public class HelicopterEnemy extends NonPlayerCharacter {
 
 	}
 
-	@Override 
-	public void update(){
+	@Override
+	public void update() {
 		centerX += this.speedX;
 		this.speedX = this.attributes.getAttribute(MOVE_SPEED);
 
-		final int random = (int)Math.random() +1;
-		if(this.alternate){
+		final int random = (int) Math.random() + 1;
+		if (this.alternate) {
 			this.centerY += random;
 
 		} else {
 			this.centerY -= random;
 		}
-		if(this.centerY > this.initialCenterY ){
+		if (this.centerY > this.initialCenterY) {
 			this.centerY = this.initialCenterY;
 			this.alternate = !this.alternate;
-		}else if(this.centerY < this.tooHighCenterY ){
+		} else if (this.centerY < this.tooHighCenterY) {
 			this.centerY = this.tooHighCenterY;
 			this.alternate = !this.alternate;
 		}
-	}	
+	}
 
 	/*
 	 * (non-Javadoc)
