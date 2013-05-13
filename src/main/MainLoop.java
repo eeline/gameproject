@@ -7,7 +7,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.net.URL;
 
-import character.nonplayercharacter.HelicopterEnemy;
+import character.npc.enemy.HelicopterEnemy;
 import character.player.PlayerCharacter;
 
 public class MainLoop extends Applet implements Runnable {

@@ -1,4 +1,4 @@
-package character.nonplayercharacter;
+package character.npc;
 
 import character.Attributes;
 import character.Position;

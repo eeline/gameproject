@@ -1,10 +1,13 @@
 /**
  * 
  */
-package character.nonplayercharacter;
+package character.npc.enemy;
 
 import java.awt.Image;
 import java.util.ArrayList;
+
+import character.npc.NonPlayerCharacter;
+import character.npc.Projectile;
 
 /**
  * @author ee
