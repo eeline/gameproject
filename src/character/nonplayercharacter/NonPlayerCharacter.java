@@ -1,6 +1,7 @@
 package character.nonplayercharacter;
 
 import character.Attributes;
+import character.Position;
 
 
 

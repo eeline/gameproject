@@ -3,7 +3,7 @@ package character.player;
 import java.awt.Image;
 
 import character.Attributes;
-import character.nonplayercharacter.Position;
+import character.Position;
 
 import main.Background;
 import main.MainLoop;

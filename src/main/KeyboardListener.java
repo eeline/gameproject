@@ -3,7 +3,7 @@ package main;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import character.nonplayercharacter.Position;
+import character.Position;
 import character.player.PlayerCharacter;
 
 public class KeyboardListener implements KeyListener {

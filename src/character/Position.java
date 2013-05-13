@@ -1,4 +1,4 @@
-package character.nonplayercharacter;
+package character;
 
 import character.player.PlayerCharacter;
 
