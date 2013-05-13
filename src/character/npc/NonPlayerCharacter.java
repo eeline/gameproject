@@ -1,5 +1,8 @@
 package character.npc;
 
+import java.awt.Graphics;
+import java.awt.image.ImageObserver;
+
 import character.Attributes;
 import character.Position;
 
@@ -20,4 +23,6 @@ public abstract class NonPlayerCharacter extends Position {
 	public abstract void die();
 
 	public abstract void attack();
+	
+	public abstract void paint(Graphics g, ImageObserver ob);
 }

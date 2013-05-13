@@ -1,18 +1,22 @@
 package character.player;
 
+import java.awt.Graphics;
 import java.awt.Image;
-
-import character.Attributes;
-import character.Position;
+import java.awt.image.ImageObserver;
+import java.util.ArrayList;
 
 import main.Background;
 import main.MainLoop;
+import character.Attributes;
+import character.Position;
+import character.npc.Projectile;
 
 public class PlayerCharacter extends Position {
 	private final Attributes attributes;
 	private Image defaultImage;
 	private Image duckingImage;
 	private Image jumpingImage;
+	private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 
 	public static final int DEFAULT_SPRITE = 0;
 	public static final int JUMP_SPRITE = 1;
@@ -22,6 +26,10 @@ public class PlayerCharacter extends Position {
 	 */
 	private static final Background first;
 	private static final Background second;
+	/**
+	 * projectile constant
+	 */
+	private static final int OFFSET = 50;
 
 	static {
 		first = MainLoop.getBackground(MainLoop.FIRST_BACKGROUND);
@@ -71,6 +79,13 @@ public class PlayerCharacter extends Position {
 		// enforces zero bound
 		if (this.centerX + this.speedX <= ZERO_BOUND_X)
 			this.centerX = ZERO_BOUND_X + 1;
+
+		for (Projectile projectile : this.projectiles) {
+			projectile.update();
+			if (!projectile.isVisible()) {
+				this.projectiles.remove(projectile);
+			}
+		}
 	}
 
 	/**
@@ -78,7 +93,14 @@ public class PlayerCharacter extends Position {
 	 */
 
 	public void move(final int moveKey) {
-		super.move(moveKey);
+		if (moveKey == Position.MOVE_ATTACK) {
+			if (!this.isDucking && !this.isJumped)
+				attack();
+			return;
+		}
+
+		else
+			super.move(moveKey);
 	}
 
 	public void stop(final int moveKey) {
@@ -105,5 +127,19 @@ public class PlayerCharacter extends Position {
 
 	public int getCenterY() {
 		return centerY;
+	}
+
+	public void paint(Graphics g, ImageObserver ob) {
+		g.drawImage(this.getSprite(), this.getCenterX()
+				- MainLoop.MAGIC_NUMBER_X, this.getCenterY()
+				- MainLoop.MAGIC_NUMBER_Y, ob);
+		for (Projectile p : this.projectiles){
+			p.paint(g, ob);
+		}
+	}
+
+	public void attack() {
+		this.projectiles.add(new Projectile(1, 1, 70, this.centerX + OFFSET,
+				this.centerY - (OFFSET / 2), true));
 	}
 }

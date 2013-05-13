@@ -38,6 +38,7 @@ public abstract class Position {
 	public static final int MOVE_DUCK = 3;
 	public static final int MOVE_JUMP = 4;
 	public static final int MOVE_FLY = 5;
+	public static final int MOVE_ATTACK = 0;
 
 	/**
 	 * sprite keys

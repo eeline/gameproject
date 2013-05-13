@@ -18,8 +18,8 @@ public class MainLoop extends Applet implements Runnable {
 	public static final int DIM_X = 800; // frame size info
 	public static final int DIM_Y = 480; // frame size info
 	private static final String GAME_NAME = "Game Name Here"; // title
-	private static final int MAGIC_NUMBER_Y = 61; // related to character
-	private static final int MAGIC_NUMBER_X = 63; // related to character
+	public static final int MAGIC_NUMBER_Y = 61; // related to character
+	public static final int MAGIC_NUMBER_X = 63; // related to character
 
 	// which background is it?
 	public static final int FIRST_BACKGROUND = 0;
@@ -141,11 +141,8 @@ public class MainLoop extends Applet implements Runnable {
 		g.drawImage(this.background,
 				MainLoop.secondBackground.getBackgroundX(),
 				MainLoop.secondBackground.getBackgroundY(), this);
-		g.drawImage(playerCharacterSprite, this.mainCharacter.getCenterX()
-				- MAGIC_NUMBER_X, this.mainCharacter.getCenterY()
-				- MAGIC_NUMBER_Y, this);
-		g.drawImage(this.heliBadGuy.getImage(), this.heliBadGuy.getX() - 48,
-				this.heliBadGuy.getY() - 48, this);
+		this.mainCharacter.paint(g, this);
+		this.heliBadGuy.paint(g, this);
 
 	}
 

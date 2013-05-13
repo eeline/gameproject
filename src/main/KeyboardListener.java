@@ -24,10 +24,10 @@ public class KeyboardListener implements KeyListener {
 			character.move(Position.MOVE_RIGHT);
 			break;
 		case KeyEvent.VK_UP:
-			character.move(Position.MOVE_FLY);
+			character.move(Position.MOVE_JUMP);
 			break;
 		case KeyEvent.VK_SPACE:
-			character.move(Position.MOVE_JUMP);
+			character.move(Position.MOVE_ATTACK);
 			break;
 		}
 
