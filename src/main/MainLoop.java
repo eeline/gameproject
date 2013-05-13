@@ -9,6 +9,7 @@ import java.net.URL;
 
 import character.npc.enemy.HelicopterEnemy;
 import character.player.PlayerCharacter;
+import character.weapon.Projectiles;
 
 public class MainLoop extends Applet implements Runnable {
 	// auto generated sUID to satisfy the warning gods
@@ -29,7 +30,6 @@ public class MainLoop extends Applet implements Runnable {
 	private PlayerCharacter mainCharacter;
 	private HelicopterEnemy heliBadGuy;
 	private Image image;
-	private Image playerCharacterSprite;
 	private Image background;
 	private Graphics second;
 	private URL base;
@@ -69,7 +69,6 @@ public class MainLoop extends Applet implements Runnable {
 				MainLoop.firstBackground.getBackgroundSpeedX(), 500, 360,
 				getImage(base, "data/heliboy.png"));
 		this.addKeyListener(new KeyboardListener(this.mainCharacter));
-		this.playerCharacterSprite = this.mainCharacter.getSprite();
 		Thread thread = new Thread(this);
 		thread.start();
 	}
@@ -99,10 +98,10 @@ public class MainLoop extends Applet implements Runnable {
 	@Override
 	public void run() {
 		while (true) {
+			System.out.println("got to mainCharacter update()");
 			this.mainCharacter.update();
-			this.playerCharacterSprite = this.mainCharacter.getSprite();
 			this.heliBadGuy.update();
-
+			Projectiles.update();
 			MainLoop.firstBackground.update();
 			MainLoop.secondBackground.update();
 			repaint();
@@ -128,7 +127,7 @@ public class MainLoop extends Applet implements Runnable {
 		second.fillRect(0, 0, this.getWidth(), this.getHeight());
 		second.setColor(getForeground());
 		paint(second);
-
+		
 		g.drawImage(image, 0, 0, this);
 	}
 
@@ -143,7 +142,7 @@ public class MainLoop extends Applet implements Runnable {
 				MainLoop.secondBackground.getBackgroundY(), this);
 		this.mainCharacter.paint(g, this);
 		this.heliBadGuy.paint(g, this);
-
+		Projectiles.paint(g, this);
 	}
 
 	/**

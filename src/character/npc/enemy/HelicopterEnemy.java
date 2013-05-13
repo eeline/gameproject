@@ -6,10 +6,9 @@ package character.npc.enemy;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.ImageObserver;
-import java.util.ArrayList;
 
 import character.npc.NonPlayerCharacter;
-import character.npc.Projectile;
+import character.weapon.Projectiles;
 
 /**
  * @author ee
@@ -20,7 +19,6 @@ public class HelicopterEnemy extends NonPlayerCharacter {
 	private boolean alternate = true;
 	private final int initialCenterY;
 	private final int tooHighCenterY;
-	private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 	private boolean visible;
 	private static final int OFFSET = 50; // default offset for spawning bullets
 											// and other models from this object
@@ -73,13 +71,6 @@ public class HelicopterEnemy extends NonPlayerCharacter {
 			this.centerY = this.tooHighCenterY;
 			this.alternate = !this.alternate;
 		}
-
-		for (Projectile projectile : this.projectiles) {
-			projectile.update();
-			if (!projectile.isVisible()) {
-				this.projectiles.remove(projectile);
-			}
-		}
 	}
 
 	/*
@@ -89,8 +80,8 @@ public class HelicopterEnemy extends NonPlayerCharacter {
 	 */
 	@Override
 	public void attack() {
-		this.projectiles.add(new Projectile(1, 1, 7, this.centerX + OFFSET,
-				this.centerY - (OFFSET / 2), true));
+		Projectiles.generateProjectile(1, 7, this.centerX + OFFSET,
+				this.centerY - (OFFSET / 2));
 
 	}
 
@@ -113,8 +104,5 @@ public class HelicopterEnemy extends NonPlayerCharacter {
 	@Override
 	public void paint(Graphics g, ImageObserver ob) {
 		g.drawImage(this.getImage(), this.centerX - 48, this.centerY - 48, ob);
-
-		for (Projectile p : this.projectiles)
-			p.paint(g, ob);
 	}
 }

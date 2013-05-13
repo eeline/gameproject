@@ -1,18 +1,17 @@
-package character.npc;
+package character.weapon;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.ImageObserver;
 
+import character.npc.NonPlayerCharacter;
+
 import main.MainLoop;
 
-public class Projectile extends NonPlayerCharacter {
+class Projectile extends NonPlayerCharacter {
 	private boolean visible;
-
+	
 	/**
-	 * 
-	 * @param health
-	 *            irrelevant for this item and can be set to an arbitrary number
 	 * @param power
 	 *            irrelevant for this item and can be set to an arbitrary number
 	 * @param speed
@@ -24,9 +23,9 @@ public class Projectile extends NonPlayerCharacter {
 	 * @param visible
 	 *            sets whether the bullet is visible or not
 	 */
-	public Projectile(int health, int power, int speed, int startX, int startY,
+	public Projectile(int power, int speed, int startX, int startY,
 			boolean visible) {
-		super(health, power, speed);
+		super(1, power, speed);
 		this.centerX = startX;
 		this.centerY = startY;
 		this.visible = visible;
@@ -59,6 +58,8 @@ public class Projectile extends NonPlayerCharacter {
 		this.centerX += this.speedX;
 		if (this.centerX > MainLoop.DIM_X)
 			this.visible = false;
+		
+		System.out.println("in mainCharacter.projectiles.projectile update()");
 	}
 
 	public boolean isVisible() {
@@ -67,7 +68,7 @@ public class Projectile extends NonPlayerCharacter {
 
 	@Override
 	public void paint(Graphics g, ImageObserver ob) {
-		g.setColor(Color.BLACK);
+		g.setColor(Color.BLACK);	
 		g.fillRect(this.centerX, this.centerY, 10, 5);
 	}
 }

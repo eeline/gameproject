@@ -15,10 +15,7 @@ public abstract class NonPlayerCharacter extends Position {
 		attributes = new Attributes(health, power, speed);
 	}
 
-	public void update() {
-		centerX += speedX;
-		speedX=this.attributes.getAttribute(MOVE_SPEED);
-	}
+	public abstract void update();
 
 	public abstract void die();
 

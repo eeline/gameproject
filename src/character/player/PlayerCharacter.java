@@ -3,20 +3,18 @@ package character.player;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.ImageObserver;
-import java.util.ArrayList;
 
 import main.Background;
 import main.MainLoop;
 import character.Attributes;
 import character.Position;
-import character.npc.Projectile;
+import character.weapon.Projectiles;
 
 public class PlayerCharacter extends Position {
 	private final Attributes attributes;
 	private Image defaultImage;
 	private Image duckingImage;
 	private Image jumpingImage;
-	private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 
 	public static final int DEFAULT_SPRITE = 0;
 	public static final int JUMP_SPRITE = 1;
@@ -80,12 +78,6 @@ public class PlayerCharacter extends Position {
 		if (this.centerX + this.speedX <= ZERO_BOUND_X)
 			this.centerX = ZERO_BOUND_X + 1;
 
-		for (Projectile projectile : this.projectiles) {
-			projectile.update();
-			if (!projectile.isVisible()) {
-				this.projectiles.remove(projectile);
-			}
-		}
 	}
 
 	/**
@@ -133,13 +125,10 @@ public class PlayerCharacter extends Position {
 		g.drawImage(this.getSprite(), this.getCenterX()
 				- MainLoop.MAGIC_NUMBER_X, this.getCenterY()
 				- MainLoop.MAGIC_NUMBER_Y, ob);
-		for (Projectile p : this.projectiles){
-			p.paint(g, ob);
-		}
 	}
 
 	public void attack() {
-		this.projectiles.add(new Projectile(1, 1, 70, this.centerX + OFFSET,
-				this.centerY - (OFFSET / 2), true));
+		Projectiles.generateProjectile(1, 70, this.centerX + OFFSET,
+				this.centerY - (OFFSET / 2));
 	}
 }
