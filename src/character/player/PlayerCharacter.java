@@ -6,15 +6,16 @@ import java.awt.image.ImageObserver;
 
 import main.Background;
 import main.MainLoop;
+import animationframework.Animation;
 import character.Attributes;
 import character.Position;
 import character.npc.weapon.Projectiles;
 
 public class PlayerCharacter extends Position {
 	private final Attributes attributes;
-	private Image defaultImage;
 	private Image duckingImage;
 	private Image jumpingImage;
+	private Animation animation;
 
 	public static final int DEFAULT_SPRITE = 0;
 	public static final int JUMP_SPRITE = 1;
@@ -34,18 +35,18 @@ public class PlayerCharacter extends Position {
 		second = MainLoop.getBackground(MainLoop.SECOND_BACKGROUND);
 	}
 
-	public PlayerCharacter(Image defaultImage, Image jumpingImage,
-			Image duckingImage) {
+	public PlayerCharacter(Image jumpingImage, Image duckingImage,
+			Image[] images, long[] durations) {
 		this.attributes = new Attributes(10, 10);
-		this.defaultImage = defaultImage;
 		this.jumpingImage = jumpingImage;
 		this.duckingImage = duckingImage;
+		this.animation = new Animation(images, durations);
 	}
 
 	/**
 	 * updates X and Y position. Not sure about the 150 number
 	 */
-	public void update() {
+	public void update(long elapsedTime) {
 		if (this.speedX < 0)
 			this.centerX += this.speedX;
 		if (this.speedX == 0 || this.speedX < 0) {
@@ -77,7 +78,8 @@ public class PlayerCharacter extends Position {
 		// enforces zero bound
 		if (this.centerX + this.speedX <= ZERO_BOUND_X)
 			this.centerX = ZERO_BOUND_X + 1;
-
+		
+		this.animation.update(elapsedTime);
 	}
 
 	/**
@@ -99,36 +101,40 @@ public class PlayerCharacter extends Position {
 		super.stop(moveKey);
 	}
 
-	private Image getSprite() {
+	private void handlePaint(Graphics g, ImageObserver ob) {
 		final int key = super.positionCheck();
 		switch (key) {
 		case DEFAULT_SPRITE:
-			return this.defaultImage;
+			this.animation.paint(g, ob, this.centerX - MainLoop.MAGIC_NUMBER_X,
+					this.centerY - MainLoop.MAGIC_NUMBER_Y);
+			break;
 		case JUMP_SPRITE:
-			return this.jumpingImage;
+			g.drawImage(this.jumpingImage, this.centerX
+					- MainLoop.MAGIC_NUMBER_X, this.centerY
+					- MainLoop.MAGIC_NUMBER_Y, ob);
+			break;
 		case DUCK_SPRITE:
-			return this.duckingImage;
+			g.drawImage(duckingImage, centerX - MainLoop.MAGIC_NUMBER_X,
+					centerY - MainLoop.MAGIC_NUMBER_Y, ob);
+			break;
 		default:
-			return null;
+			return;
 		}
 	}
 
-	public int getCenterX() {
-		return centerX;
-	}
-
-	public int getCenterY() {
-		return centerY;
-	}
-
 	public void paint(Graphics g, ImageObserver ob) {
-		g.drawImage(this.getSprite(), this.getCenterX()
-				- MainLoop.MAGIC_NUMBER_X, this.getCenterY()
-				- MainLoop.MAGIC_NUMBER_Y, ob);
+		this.handlePaint(g, ob);
 	}
 
 	public void attack() {
 		Projectiles.generateProjectile(1, 70, this.centerX + OFFSET,
 				this.centerY - (OFFSET / 2));
+	}
+
+	@Deprecated
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+
 	}
 }

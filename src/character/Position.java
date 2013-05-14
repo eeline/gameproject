@@ -48,6 +48,7 @@ public abstract class Position {
 	}
 
 	public abstract void update();
+	public abstract void update(long elapsedTime);
 
 	protected void move(final int moveKey) {
 		switch (moveKey) {

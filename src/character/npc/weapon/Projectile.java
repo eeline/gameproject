@@ -70,4 +70,10 @@ class Projectile extends NonPlayerCharacter {
 		g.setColor(Color.BLACK);
 		g.fillRect(this.centerX, this.centerY, 10, 5);
 	}
+	@Deprecated
+	@Override
+	public void update(long elapsedTime) {
+		// TODO Auto-generated method stub
+		
+	}
 }

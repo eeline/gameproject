@@ -9,9 +9,10 @@ import java.util.List;
 
 public class Animation {
 	private List<Frame> frames;
+	int count=0;
 	private int currentFrame;
 	private long animationTime;
-	private long totalDuration;
+	private Image image;
 
 	/**
 	 * both arrays must match and be in order
@@ -19,50 +20,39 @@ public class Animation {
 	 * @param images
 	 * @param duration
 	 */
-	public Animation(Image[] images, int[] duration) {
-		this.totalDuration = 0;
+	public Animation(Image[] images, long[] duration) {
 		synchronized (this) {
 			this.animationTime = 0;
 			this.currentFrame = 0;
 		}
 		this.frames = Collections.synchronizedList(new ArrayList<Frame>());
-		for (int i = 0; i < images.length; i++) {
-			frames.add(new Frame(images[i], duration[i]));
-			this.totalDuration += duration[i];
+		for (int i = 0; i < images.length; i++){
+			this.frames.add(new Frame(images[i], duration[i]));
+			this.count++;
 		}
 	}
 
 	public synchronized void update(long elapsedTime) {
-		if (this.frames.size() > 1) {
+		if (this.currentFrame >= count)
+			this.currentFrame = 0;
+		if (this.frames.size() > 1)
 			this.animationTime += elapsedTime;
-			if (this.animationTime >= this.totalDuration) {
-				this.animationTime = this.animationTime % this.totalDuration;
-				this.currentFrame = 0;
-			}
-
-			while (this.animationTime > this.frames.get(this.currentFrame).endTime) {
-				this.currentFrame++;
-			}
+		if (this.animationTime > this.frames.get(this.currentFrame)
+				.getEndTime()) {
+			this.animationTime = 0;
+			this.currentFrame++;
 		}
 	}
 
-	public synchronized void paint(Graphics g, ImageObserver ob) {
-		for (Frame f : this.frames)
-			f.paint(g, ob);
+	public synchronized void paint(Graphics g, ImageObserver ob, int x, int y) {
+		this.frames.get(this.getCurrentFrame()).paint(g, ob, x, y);
 	}
-
-	private class Frame {
-		private Image image;
-		private long endTime;
-
-		public Frame(Image image, long totalDuration) {
-			// TODO Auto-generated constructor stub
+	private int getCurrentFrame(){
+		if(this.currentFrame >= this.count){
+			this.currentFrame=0;
+			return this.currentFrame;
 		}
-
-		public void paint(Graphics g, ImageObserver ob) {
-			// TODO Auto-generated method stub
-
-		}
-
+		return this.currentFrame;
+			
 	}
 }

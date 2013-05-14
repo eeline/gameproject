@@ -62,17 +62,33 @@ public class MainLoop extends Applet implements Runnable {
 	@Override
 	public void start() {
 		super.start();
+
+		Image[] playerimages = {
+				getImage(base, "data/playercharacter/character.png"),
+				getImage(base, "data/playercharacter/character2.png"),
+				getImage(base, "data/playercharacter/character3.png"),
+				getImage(base, "data/playercharacter/character2.png") };
+		long[] playerdurations = { 1250, 50, 50, 50 };
+
+		Image[] heliimages = { 
+				getImage(base, "data/enemy/helicopter/heliboy.png"),
+				getImage(base, "data/enemy/helicopter/heliboy2.png"),
+				getImage(base, "data/enemy/helicopter/heliboy3.png"),
+				getImage(base, "data/enemy/helicopter/heliboy4.png"),
+				getImage(base, "data/enemy/helicopter/heliboy5.png")
+		};
+		long[] helidurations = { 50, 50, 50, 50, 50 };
 		MainLoop.firstBackground = new Background(0, 0);
 		MainLoop.secondBackground = new Background(
 				Background.BACKGROUND_LENGTH_X, 0);
+
 		this.mainCharacter = new PlayerCharacter(getImage(base,
-				"data/playercharacter/character.png"), getImage(base,
 				"data/playercharacter/jumping.png"), getImage(base,
-				"data/playercharacter/ducking.png"));
+				"data/playercharacter/ducking.png"), playerimages,
+				playerdurations);
 		this.heliBadGuy = new HelicopterEnemy(1, 1,
 				MainLoop.firstBackground.getBackgroundSpeedX(), 0,
-				500 + (int) (1000 * Math.random()), 360, getImage(base,
-						"data/enemy/helicopter/heliboy.png"));
+				500 + (int) (1000 * Math.random()), 360, heliimages, helidurations);
 		this.addKeyListener(new KeyboardListener(this.mainCharacter));
 		Thread thread = new Thread(this);
 		thread.start();
@@ -103,8 +119,8 @@ public class MainLoop extends Applet implements Runnable {
 	@Override
 	public void run() {
 		while (true) {
-			this.mainCharacter.update();
-			this.heliBadGuy.update();
+			this.mainCharacter.update(17);
+			this.heliBadGuy.update(17);
 			Projectiles.update();
 			MainLoop.firstBackground.update();
 			MainLoop.secondBackground.update();
