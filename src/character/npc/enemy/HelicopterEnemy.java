@@ -8,7 +8,7 @@ import java.awt.Image;
 import java.awt.image.ImageObserver;
 
 import character.npc.NonPlayerCharacter;
-import character.weapon.Projectiles;
+import character.npc.weapon.Projectiles;
 
 /**
  * @author ee

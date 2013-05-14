@@ -8,8 +8,8 @@ import java.awt.Image;
 import java.net.URL;
 
 import character.npc.enemy.HelicopterEnemy;
+import character.npc.weapon.Projectiles;
 import character.player.PlayerCharacter;
-import character.weapon.Projectiles;
 
 public class MainLoop extends Applet implements Runnable {
 	// auto generated sUID to satisfy the warning gods
@@ -101,7 +101,6 @@ public class MainLoop extends Applet implements Runnable {
 			this.mainCharacter.update();
 			this.heliBadGuy.update();
 			Projectiles.update();
-			Projectiles.clearInvisible();
 			MainLoop.firstBackground.update();
 			MainLoop.secondBackground.update();
 			repaint();
@@ -127,7 +126,7 @@ public class MainLoop extends Applet implements Runnable {
 		second.fillRect(0, 0, this.getWidth(), this.getHeight());
 		second.setColor(getForeground());
 		paint(second);
-		
+
 		g.drawImage(image, 0, 0, this);
 	}
 
@@ -143,7 +142,7 @@ public class MainLoop extends Applet implements Runnable {
 		Projectiles.paint(g, this);
 		this.mainCharacter.paint(g, this);
 		this.heliBadGuy.paint(g, this);
-		
+
 	}
 
 	/**

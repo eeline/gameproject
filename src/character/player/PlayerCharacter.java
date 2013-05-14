@@ -8,7 +8,7 @@ import main.Background;
 import main.MainLoop;
 import character.Attributes;
 import character.Position;
-import character.weapon.Projectiles;
+import character.npc.weapon.Projectiles;
 
 public class PlayerCharacter extends Position {
 	private final Attributes attributes;
@@ -86,7 +86,7 @@ public class PlayerCharacter extends Position {
 
 	public void move(final int moveKey) {
 		if (moveKey == Position.MOVE_ATTACK) {
-			if (!this.isDucking && !this.isJumped)
+			if (!this.isDucking)
 				attack();
 			return;
 		}

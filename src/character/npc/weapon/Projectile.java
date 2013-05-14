@@ -1,4 +1,4 @@
-package character.weapon;
+package character.npc.weapon;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -21,7 +21,7 @@ class Projectile extends NonPlayerCharacter {
 	 * @param visible
 	 *            sets whether the bullet is visible or not
 	 */
-	public Projectile(int power, int speed, int startX, int startY,
+	Projectile(int power, int speed, int startX, int startY,
 			boolean visible) {
 		super(1, power);
 		this.centerX = startX;
