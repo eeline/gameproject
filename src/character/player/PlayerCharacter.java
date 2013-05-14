@@ -99,7 +99,7 @@ public class PlayerCharacter extends Position {
 		super.stop(moveKey);
 	}
 
-	public Image getSprite() {
+	private Image getSprite() {
 		final int key = super.positionCheck();
 		switch (key) {
 		case DEFAULT_SPRITE:

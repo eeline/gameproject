@@ -27,25 +27,21 @@ public class Projectiles {
 		}
 	}
 
-	public static void update() {
-		synchronized (PROJECTILE_LIST) {
-			for (Projectile p : PROJECTILE_LIST) {
-				if (p.isVisible()) {
-					p.update();
-				} else
-					TO_REMOVE.add(p);
-			}
+	public synchronized static void update() {
+		for (Projectile p : PROJECTILE_LIST) {
+			if (p.isVisible())
+				p.update();
+			else
+				TO_REMOVE.add(p);
+
 		}
 
 		for (int i = 0; i < TO_REMOVE.size(); i++)
 			PROJECTILE_LIST.remove(TO_REMOVE.poll());
 	}
 
-	public static void paint(Graphics g, ImageObserver ob) {
-		synchronized (PROJECTILE_LIST) {
-			for (Projectile p : PROJECTILE_LIST) {
-				p.paint(g, ob);
-			}
-		}
+	public synchronized static void paint(Graphics g, ImageObserver ob) {
+		for (Projectile p : PROJECTILE_LIST)
+			p.paint(g, ob);
 	}
 }

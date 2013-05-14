@@ -24,14 +24,19 @@ public class HelicopterEnemy extends NonPlayerCharacter {
 											// and other models from this object
 
 	/**
+	 * 
 	 * @param health
 	 * @param power
-	 * @param speed
+	 * @param speedX
+	 * @param speedY
+	 *            CURRENTLY NOT IN USE
 	 * @param centerX
 	 * @param centerY
+	 * @param image
 	 */
-	public HelicopterEnemy(final int health, final int power, final int speed,
-			final int centerX, final int centerY, Image image) {
+	public HelicopterEnemy(final int health, final int power, final int speedX,
+			final int speedY, final int centerX, final int centerY,
+			final Image image) {
 		super(health, power);
 		super.centerX = centerX;
 		super.centerY = centerY;
@@ -49,7 +54,6 @@ public class HelicopterEnemy extends NonPlayerCharacter {
 	@Override
 	public void die() {
 		this.visible = false;
-
 	}
 
 	@Override
@@ -82,7 +86,6 @@ public class HelicopterEnemy extends NonPlayerCharacter {
 	public void attack() {
 		Projectiles.generateProjectile(1, 7, this.centerX + OFFSET,
 				this.centerY - (OFFSET / 2));
-
 	}
 
 	public Image getImage() {

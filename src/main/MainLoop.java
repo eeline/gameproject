@@ -32,6 +32,9 @@ public class MainLoop extends Applet implements Runnable {
 	private Image image;
 	private Image background;
 	private Graphics second;
+	/**
+	 * URL base is the document base
+	 */
 	private URL base;
 	private static Background firstBackground, secondBackground;
 
@@ -63,11 +66,13 @@ public class MainLoop extends Applet implements Runnable {
 		MainLoop.secondBackground = new Background(
 				Background.BACKGROUND_LENGTH_X, 0);
 		this.mainCharacter = new PlayerCharacter(getImage(base,
-				"data/character.png"), getImage(base, "data/jumping.png"),
-				getImage(base, "data/ducking.png"));
+				"data/playercharacter/character.png"), getImage(base,
+				"data/playercharacter/jumping.png"), getImage(base,
+				"data/playercharacter/ducking.png"));
 		this.heliBadGuy = new HelicopterEnemy(1, 1,
-				MainLoop.firstBackground.getBackgroundSpeedX(), 500, 360,
-				getImage(base, "data/heliboy.png"));
+				MainLoop.firstBackground.getBackgroundSpeedX(), 0,
+				500 + (int) (1000 * Math.random()), 360, getImage(base,
+						"data/enemy/helicopter/heliboy.png"));
 		this.addKeyListener(new KeyboardListener(this.mainCharacter));
 		Thread thread = new Thread(this);
 		thread.start();

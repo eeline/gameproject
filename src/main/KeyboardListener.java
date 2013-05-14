@@ -8,9 +8,11 @@ import character.player.PlayerCharacter;
 
 public class KeyboardListener implements KeyListener {
 	private PlayerCharacter character;
-	KeyboardListener(PlayerCharacter character){
+
+	KeyboardListener(PlayerCharacter character) {
 		this.character = character;
 	}
+
 	@Override
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
@@ -53,7 +55,7 @@ public class KeyboardListener implements KeyListener {
 			break;
 		}
 	}
-	
+
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
