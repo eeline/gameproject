@@ -8,8 +8,10 @@ public class Projectiles {
 	private static ArrayList<Projectile> PROJECTILE_LIST = new ArrayList<Projectile>();
 
 	public static void update() {
-		for (Projectile p : PROJECTILE_LIST)
-			p.update();
+		for (Projectile p : PROJECTILE_LIST){
+			if (p.isVisible())
+				p.update();
+		}
 	}
 
 	/**
@@ -23,9 +25,16 @@ public class Projectiles {
 		PROJECTILE_LIST.add(new Projectile(power, speedX, centerX, centerY,
 				true));
 	}
-
+	
+	public static void clearInvisible(){
+		for(Projectile p : PROJECTILE_LIST)
+			if(!p.isVisible())
+				PROJECTILE_LIST.remove(p);
+	}
 	public static void paint(Graphics g, ImageObserver ob) {
-		for (Projectile p : PROJECTILE_LIST)
+		for (int i = 0; i < PROJECTILE_LIST.size(); i++) {
+			Projectile p = PROJECTILE_LIST.get(i);
 			p.paint(g, ob);
+		}
 	}
 }

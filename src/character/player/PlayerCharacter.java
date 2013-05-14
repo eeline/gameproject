@@ -36,7 +36,7 @@ public class PlayerCharacter extends Position {
 
 	public PlayerCharacter(Image defaultImage, Image jumpingImage,
 			Image duckingImage) {
-		this.attributes = new Attributes(10, 10, 10);
+		this.attributes = new Attributes(10, 10);
 		this.defaultImage = defaultImage;
 		this.jumpingImage = jumpingImage;
 		this.duckingImage = duckingImage;

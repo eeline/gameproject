@@ -32,7 +32,7 @@ public class HelicopterEnemy extends NonPlayerCharacter {
 	 */
 	public HelicopterEnemy(final int health, final int power, final int speed,
 			final int centerX, final int centerY, Image image) {
-		super(health, power, speed);
+		super(health, power);
 		super.centerX = centerX;
 		super.centerY = centerY;
 		this.image = image;

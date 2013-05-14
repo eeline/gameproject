@@ -6,11 +6,9 @@ import java.awt.image.ImageObserver;
 
 import character.npc.NonPlayerCharacter;
 
-import main.MainLoop;
-
 class Projectile extends NonPlayerCharacter {
 	private boolean visible;
-	
+
 	/**
 	 * @param power
 	 *            irrelevant for this item and can be set to an arbitrary number
@@ -25,9 +23,10 @@ class Projectile extends NonPlayerCharacter {
 	 */
 	public Projectile(int power, int speed, int startX, int startY,
 			boolean visible) {
-		super(1, power, speed);
+		super(1, power);
 		this.centerX = startX;
 		this.centerY = startY;
+		this.speedX = speed;
 		this.visible = visible;
 	}
 
@@ -55,11 +54,11 @@ class Projectile extends NonPlayerCharacter {
 
 	@Override
 	public void update() {
+		this.centerX += this.attributes.getAttribute(MOVE_SPEED);
 		this.centerX += this.speedX;
-		if (this.centerX > MainLoop.DIM_X)
+		if (this.centerX > 800)
 			this.visible = false;
-		
-		System.out.println("in mainCharacter.projectiles.projectile update()");
+
 	}
 
 	public boolean isVisible() {
@@ -68,7 +67,7 @@ class Projectile extends NonPlayerCharacter {
 
 	@Override
 	public void paint(Graphics g, ImageObserver ob) {
-		g.setColor(Color.BLACK);	
+		g.setColor(Color.BLACK);
 		g.fillRect(this.centerX, this.centerY, 10, 5);
 	}
 }

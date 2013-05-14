@@ -98,10 +98,10 @@ public class MainLoop extends Applet implements Runnable {
 	@Override
 	public void run() {
 		while (true) {
-			System.out.println("got to mainCharacter update()");
 			this.mainCharacter.update();
 			this.heliBadGuy.update();
 			Projectiles.update();
+			Projectiles.clearInvisible();
 			MainLoop.firstBackground.update();
 			MainLoop.secondBackground.update();
 			repaint();
@@ -140,9 +140,10 @@ public class MainLoop extends Applet implements Runnable {
 		g.drawImage(this.background,
 				MainLoop.secondBackground.getBackgroundX(),
 				MainLoop.secondBackground.getBackgroundY(), this);
+		Projectiles.paint(g, this);
 		this.mainCharacter.paint(g, this);
 		this.heliBadGuy.paint(g, this);
-		Projectiles.paint(g, this);
+		
 	}
 
 	/**

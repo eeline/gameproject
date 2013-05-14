@@ -11,8 +11,8 @@ import character.Position;
 public abstract class NonPlayerCharacter extends Position {
 	protected final Attributes attributes;
 	
-	public NonPlayerCharacter(int health, int power, int speed) {
-		attributes = new Attributes(health, power, speed);
+	public NonPlayerCharacter(int health, int power) {
+		attributes = new Attributes(health, power);
 	}
 
 	public abstract void update();
