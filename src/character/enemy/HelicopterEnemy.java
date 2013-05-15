@@ -16,6 +16,7 @@ import character.weapon.Projectiles;
  * 
  */
 public class HelicopterEnemy extends NonPlayerCharacter {
+	private long durationCount = 0;
 	private Image image;
 	private boolean alternate = true;
 	private final int initialCenterY;
@@ -57,6 +58,7 @@ public class HelicopterEnemy extends NonPlayerCharacter {
 	public void die() {
 		this.visible = false;
 	}
+
 	@Deprecated
 	@Override
 	public void update() {
@@ -70,8 +72,8 @@ public class HelicopterEnemy extends NonPlayerCharacter {
 	 */
 	@Override
 	public void attack() {
-		Projectiles.generateProjectile(1, 7, this.centerX + OFFSET,
-				this.centerY - (OFFSET / 2));
+		Projectiles.generateProjectile(1, -7, this.centerX,
+				this.centerY+5);
 	}
 
 	public Image getImage() {
@@ -80,7 +82,7 @@ public class HelicopterEnemy extends NonPlayerCharacter {
 
 	@Override
 	public void paint(Graphics g, ImageObserver ob) {
-		this.animation.paint(g, ob,this.centerX - 48, this.centerY - 48);
+		this.animation.paint(g, ob, this.centerX - 48, this.centerY - 48);
 	}
 
 	@Override
@@ -102,7 +104,12 @@ public class HelicopterEnemy extends NonPlayerCharacter {
 			this.centerY = this.tooHighCenterY;
 			this.alternate = !this.alternate;
 		}
-		
+		this.durationCount += elapsedTime;
 		this.animation.update(elapsedTime);
+
+		if (this.durationCount >= 1000) {
+			this.durationCount = 0;
+			this.attack();
+		}
 	}
 }
