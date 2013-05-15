@@ -3,9 +3,7 @@
  */
 package character.enemy;
 
-import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.image.ImageObserver;
 
 import animationframework.Animation;
 import character.NonPlayerCharacter;
@@ -23,8 +21,7 @@ public class HelicopterEnemy extends NonPlayerCharacter {
 	private final int tooHighCenterY;
 	private boolean visible;
 	private Animation animation;
-	private static final int OFFSET = 50; // default offset for spawning bullets
-											// and other models from this object
+
 
 	/**
 	 * 
@@ -81,8 +78,8 @@ public class HelicopterEnemy extends NonPlayerCharacter {
 	}
 
 	@Override
-	public void paint(Graphics g, ImageObserver ob) {
-		this.animation.paint(g, ob, this.centerX - 48, this.centerY - 48);
+	public void paint() {
+		this.animation.paint(this.centerX - 48, this.centerY - 48);
 	}
 
 	@Override

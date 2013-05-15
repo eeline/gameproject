@@ -1,7 +1,5 @@
 package character;
 
-import java.awt.Graphics;
-import java.awt.image.ImageObserver;
 
 
 
@@ -19,5 +17,5 @@ public abstract class NonPlayerCharacter extends Position {
 
 	public abstract void attack();
 	
-	public abstract void paint(Graphics g, ImageObserver ob);
+	public abstract void paint();
 }

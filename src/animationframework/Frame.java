@@ -1,8 +1,8 @@
 package animationframework;
 
-import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.image.ImageObserver;
+
+import main.Painter;
 
 public class Frame {
 	private Image image;
@@ -19,8 +19,8 @@ public class Frame {
 		this.image = image;
 		this.endTime = endTime;
 	}
-	void paint(Graphics g, ImageObserver ob, int x, int y) {
-		g.drawImage(image, x, y, ob);
+	void paint(int x, int y) {
+		Painter.paint(image, x, y);
 	}
 
 	long getEndTime() {

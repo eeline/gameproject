@@ -1,7 +1,5 @@
 package character.weapon;
 
-import java.awt.Graphics;
-import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -40,8 +38,8 @@ public class Projectiles {
 			PROJECTILE_LIST.remove(TO_REMOVE.poll());
 	}
 
-	public synchronized static void paint(Graphics g, ImageObserver ob) {
+	public synchronized static void paint() {
 		for (Projectile p : PROJECTILE_LIST)
-			p.paint(g, ob);
+			p.paint();
 	}
 }

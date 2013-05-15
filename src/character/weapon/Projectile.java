@@ -1,9 +1,8 @@
 package character.weapon;
 
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.image.ImageObserver;
 
+import main.Painter;
 import character.NonPlayerCharacter;
 
 class Projectile extends NonPlayerCharacter {
@@ -21,8 +20,7 @@ class Projectile extends NonPlayerCharacter {
 	 * @param visible
 	 *            sets whether the bullet is visible or not
 	 */
-	Projectile(int power, int speed, int startX, int startY,
-			boolean visible) {
+	Projectile(int power, int speed, int startX, int startY, boolean visible) {
 		super(1, power);
 		this.centerX = startX;
 		this.centerY = startY;
@@ -66,14 +64,14 @@ class Projectile extends NonPlayerCharacter {
 	}
 
 	@Override
-	public void paint(Graphics g, ImageObserver ob) {
-		g.setColor(Color.BLACK);
-		g.fillRect(this.centerX, this.centerY, 10, 5);
+	public void paint() {
+		Painter.paint(this.centerX, this.centerY, 10, 5, Color.BLACK);
 	}
+
 	@Deprecated
 	@Override
 	public void update(long elapsedTime) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

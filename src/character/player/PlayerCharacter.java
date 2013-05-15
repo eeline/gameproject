@@ -1,11 +1,9 @@
 package character.player;
 
-import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.image.ImageObserver;
 
 import main.Background;
-import main.MainLoop;
+import main.Painter;
 import animationframework.Animation;
 import character.Attributes;
 import character.Position;
@@ -100,29 +98,23 @@ public class PlayerCharacter extends Position {
 		super.stop(moveKey);
 	}
 
-	private void handlePaint(Graphics g, ImageObserver ob) {
+	public void paint() {
 		final int key = super.positionCheck();
 		switch (key) {
 		case DEFAULT_SPRITE:
-			this.animation.paint(g, ob, this.centerX - X_OFFSET,
-					this.centerY - Y_OFFSET);
+			this.animation.paint(this.centerX - X_OFFSET, this.centerY
+					- Y_OFFSET);
 			break;
 		case JUMP_SPRITE:
-			g.drawImage(this.jumpingImage, this.centerX
-					- X_OFFSET, this.centerY
-					- Y_OFFSET, ob);
+			Painter.paint(this.jumpingImage, this.centerX - X_OFFSET,
+					this.centerY - Y_OFFSET);
 			break;
 		case DUCK_SPRITE:
-			g.drawImage(duckingImage, centerX - X_OFFSET,
-					centerY - Y_OFFSET, ob);
+			Painter.paint(duckingImage, centerX - X_OFFSET, centerY - Y_OFFSET);
 			break;
 		default:
 			return;
 		}
-	}
-
-	public void paint(Graphics g, ImageObserver ob) {
-		this.handlePaint(g, ob);
 	}
 
 	public void attack() {

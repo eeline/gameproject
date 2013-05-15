@@ -1,8 +1,6 @@
 package animationframework;
 
-import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -43,8 +41,8 @@ public class Animation {
 		}
 	}
 
-	public synchronized void paint(Graphics g, ImageObserver ob, int x, int y) {
-		this.frames.get(this.getCurrentFrame()).paint(g, ob, x, y);
+	public synchronized void paint(int x, int y) {
+		this.frames.get(this.getCurrentFrame()).paint(x, y);
 	}
 
 	private int getCurrentFrame() {

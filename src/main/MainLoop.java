@@ -70,6 +70,7 @@ public class MainLoop extends Applet implements Runnable {
 						ImageLoader.HELICOPTER_ROTATE_KEY), helidurations);
 		
 		this.addKeyListener(new KeyboardListener(this.mainCharacter));
+		Painter.init(this);
 	}
 
 	/** 
@@ -78,7 +79,7 @@ public class MainLoop extends Applet implements Runnable {
 	@Override
 	public void start() {
 		super.start();
-
+		
 		Thread thread = new Thread(this);
 		thread.start();
 	}
@@ -126,7 +127,9 @@ public class MainLoop extends Applet implements Runnable {
 	/**
 	 * manages double buffering
 	 */
+	@Override
 	public void update(Graphics g) {
+		Painter.setG(g);
 		if (image == null) {
 			image = createImage(this.getWidth(), this.getHeight());
 			second = image.getGraphics();
@@ -143,12 +146,14 @@ public class MainLoop extends Applet implements Runnable {
 	/**
 	 * 
 	 */
+	@Override
 	public void paint(Graphics g) {
-		this.firstBackground.paint(g, this);
-		this.secondBackground.paint(g, this);
-		Projectiles.paint(g, this);
-		this.mainCharacter.paint(g, this);
-		this.heliBadGuy.paint(g, this);
+		Painter.setG(g);
+		this.firstBackground.paint();
+		this.secondBackground.paint();
+		Projectiles.paint();
+		this.mainCharacter.paint();
+		this.heliBadGuy.paint();
 
 	}
 

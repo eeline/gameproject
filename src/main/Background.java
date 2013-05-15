@@ -1,8 +1,6 @@
 package main;
 
-import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.image.ImageObserver;
 
 import character.Position;
 
@@ -29,8 +27,8 @@ public class Background {
 		}
 	}
 
-	public void paint(Graphics g, ImageObserver ob) {
-		g.drawImage(image, this.backgroundX, this.backgroundY, ob);
+	public void paint() {
+		Painter.paint(image, this.backgroundX, this.backgroundY);
 	}
 
 	public void stop() {
