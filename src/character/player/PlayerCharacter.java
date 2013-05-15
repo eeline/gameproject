@@ -16,6 +16,8 @@ public class PlayerCharacter extends Position {
 	private Image duckingImage;
 	private Image jumpingImage;
 	private Animation animation;
+	public static final int Y_OFFSET = 61; // related to character
+	public static final int X_OFFSET = 63; // related to character
 
 	public static final int DEFAULT_SPRITE = 0;
 	public static final int JUMP_SPRITE = 1;
@@ -23,24 +25,21 @@ public class PlayerCharacter extends Position {
 	/**
 	 * background
 	 */
-	private static final Background first;
-	private static final Background second;
+	private final Background first;
+	private final Background second;
 	/**
 	 * projectile constant
 	 */
 	private static final int OFFSET = 50;
 
-	static {
-		first = MainLoop.getBackground(MainLoop.FIRST_BACKGROUND);
-		second = MainLoop.getBackground(MainLoop.SECOND_BACKGROUND);
-	}
-
 	public PlayerCharacter(Image jumpingImage, Image duckingImage,
-			Image[] images, long[] durations) {
+			Image[] images, long[] durations, Background b1, Background b2) {
 		this.attributes = new Attributes(10, 10);
 		this.jumpingImage = jumpingImage;
 		this.duckingImage = duckingImage;
 		this.animation = new Animation(images, durations);
+		this.first = b1;
+		this.second = b2;
 	}
 
 	/**
@@ -50,16 +49,16 @@ public class PlayerCharacter extends Position {
 		if (this.speedX < 0)
 			this.centerX += this.speedX;
 		if (this.speedX == 0 || this.speedX < 0) {
-			first.setBackgroundSpeedX(0);
-			second.setBackgroundSpeedX(0);
+			first.stop();
+			second.stop();
 		}
 
 		if (this.centerX <= SCROLL_BORDER && this.speedX > 0)
 			this.centerX += this.speedX;
 
 		if (this.speedX > 0 && this.centerX > 200) {
-			first.setBackgroundSpeedX(-MOVE_SPEED);
-			second.setBackgroundSpeedX(-MOVE_SPEED);
+			first.go();
+			second.go();
 		}
 
 		// manage Y transition
@@ -78,7 +77,7 @@ public class PlayerCharacter extends Position {
 		// enforces zero bound
 		if (this.centerX + this.speedX <= ZERO_BOUND_X)
 			this.centerX = ZERO_BOUND_X + 1;
-		
+
 		this.animation.update(elapsedTime);
 	}
 
@@ -105,17 +104,17 @@ public class PlayerCharacter extends Position {
 		final int key = super.positionCheck();
 		switch (key) {
 		case DEFAULT_SPRITE:
-			this.animation.paint(g, ob, this.centerX - MainLoop.MAGIC_NUMBER_X,
-					this.centerY - MainLoop.MAGIC_NUMBER_Y);
+			this.animation.paint(g, ob, this.centerX - X_OFFSET,
+					this.centerY - Y_OFFSET);
 			break;
 		case JUMP_SPRITE:
 			g.drawImage(this.jumpingImage, this.centerX
-					- MainLoop.MAGIC_NUMBER_X, this.centerY
-					- MainLoop.MAGIC_NUMBER_Y, ob);
+					- X_OFFSET, this.centerY
+					- Y_OFFSET, ob);
 			break;
 		case DUCK_SPRITE:
-			g.drawImage(duckingImage, centerX - MainLoop.MAGIC_NUMBER_X,
-					centerY - MainLoop.MAGIC_NUMBER_Y, ob);
+			g.drawImage(duckingImage, centerX - X_OFFSET,
+					centerY - Y_OFFSET, ob);
 			break;
 		default:
 			return;

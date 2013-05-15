@@ -18,7 +18,7 @@
 		<link>
 			<name>src/data</name>
 			<type>2</type>
-			<location>/home/ee/git/gameproject/src/data</location>
+			<locationURI>PROJECT_LOC/src/data</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

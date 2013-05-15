@@ -5,8 +5,8 @@ import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.net.URL;
 
+import character.Position;
 import character.enemy.HelicopterEnemy;
 import character.player.PlayerCharacter;
 import character.weapon.Projectiles;
@@ -19,8 +19,6 @@ public class MainLoop extends Applet implements Runnable {
 	public static final int DIM_X = 800; // frame size info
 	public static final int DIM_Y = 480; // frame size info
 	private static final String GAME_NAME = "Game Name Here"; // title
-	public static final int MAGIC_NUMBER_Y = 61; // related to character
-	public static final int MAGIC_NUMBER_X = 63; // related to character
 
 	// which background is it?
 	public static final int FIRST_BACKGROUND = 0;
@@ -30,19 +28,19 @@ public class MainLoop extends Applet implements Runnable {
 	private PlayerCharacter mainCharacter;
 	private HelicopterEnemy heliBadGuy;
 	private Image image;
-	private Image background;
 	private Graphics second;
 	/**
 	 * URL base is the document base
 	 */
-	private URL base;
-	private static Background firstBackground, secondBackground;
+	private ImageLoader loader;
+	private Background firstBackground, secondBackground;
 
 	/** 
 	 * 
 	 */
 	@Override
 	public void init() {
+		this.loader = new ImageLoader();
 		// initial frame generation
 		this.setSize(DIM_X, DIM_Y);
 		this.setBackground(Color.BLACK);
@@ -50,10 +48,28 @@ public class MainLoop extends Applet implements Runnable {
 
 		Frame frame = (Frame) this.getParent().getParent();
 		frame.setTitle(GAME_NAME);
+		
+		//resource initializations
+		long[] playerdurations = { 1250, 50, 50, 50 }; //animation times are set in main loop b/c images are set here
+		long[] helidurations = { 50, 50, 50, 50, 50 };
 
-		// resource management
-		base = getDocumentBase();
-		this.background = getImage(base, "data/background.png");
+		this.firstBackground = new Background(0, 0, this.loader.get(this,
+				ImageLoader.BACKGROUND)[0]);
+		
+		this.secondBackground = new Background(Background.BACKGROUND_LENGTH_X,
+				0, this.loader.get(this, ImageLoader.BACKGROUND)[0]);
+
+		this.mainCharacter = new PlayerCharacter(this.loader.get(this,
+				ImageLoader.PLAYER_JUMP_KEY)[0], this.loader.get(this,
+				ImageLoader.PLAYER_DUCK_KEY)[0], this.loader.get(this,
+				ImageLoader.PLAYER_BLINK_ANIMATION_KEY), playerdurations,
+				this.firstBackground, this.secondBackground);
+		
+		this.heliBadGuy = new HelicopterEnemy(1, 1, Position.MOVE_SPEED, 0,
+				500 + (int) (1000 * Math.random()), 360, this.loader.get(this,
+						ImageLoader.HELICOPTER_ROTATE_KEY), helidurations);
+		
+		this.addKeyListener(new KeyboardListener(this.mainCharacter));
 	}
 
 	/** 
@@ -63,33 +79,6 @@ public class MainLoop extends Applet implements Runnable {
 	public void start() {
 		super.start();
 
-		Image[] playerimages = {
-				getImage(base, "data/playercharacter/character.png"),
-				getImage(base, "data/playercharacter/character2.png"),
-				getImage(base, "data/playercharacter/character3.png"),
-				getImage(base, "data/playercharacter/character2.png") };
-		long[] playerdurations = { 1250, 50, 50, 50 };
-
-		Image[] heliimages = { 
-				getImage(base, "data/enemy/helicopter/heliboy.png"),
-				getImage(base, "data/enemy/helicopter/heliboy2.png"),
-				getImage(base, "data/enemy/helicopter/heliboy3.png"),
-				getImage(base, "data/enemy/helicopter/heliboy4.png"),
-				getImage(base, "data/enemy/helicopter/heliboy5.png")
-		};
-		long[] helidurations = { 50, 50, 50, 50, 50 };
-		MainLoop.firstBackground = new Background(0, 0);
-		MainLoop.secondBackground = new Background(
-				Background.BACKGROUND_LENGTH_X, 0);
-
-		this.mainCharacter = new PlayerCharacter(getImage(base,
-				"data/playercharacter/jumping.png"), getImage(base,
-				"data/playercharacter/ducking.png"), playerimages,
-				playerdurations);
-		this.heliBadGuy = new HelicopterEnemy(1, 1,
-				MainLoop.firstBackground.getBackgroundSpeedX(), 0,
-				500 + (int) (1000 * Math.random()), 360, heliimages, helidurations);
-		this.addKeyListener(new KeyboardListener(this.mainCharacter));
 		Thread thread = new Thread(this);
 		thread.start();
 	}
@@ -122,8 +111,8 @@ public class MainLoop extends Applet implements Runnable {
 			this.mainCharacter.update(17);
 			this.heliBadGuy.update(17);
 			Projectiles.update();
-			MainLoop.firstBackground.update();
-			MainLoop.secondBackground.update();
+			this.firstBackground.update();
+			this.secondBackground.update();
 			repaint();
 			try {
 				Thread.sleep(17);
@@ -135,7 +124,7 @@ public class MainLoop extends Applet implements Runnable {
 	}
 
 	/**
-	 * 
+	 * manages double buffering
 	 */
 	public void update(Graphics g) {
 		if (image == null) {
@@ -155,11 +144,8 @@ public class MainLoop extends Applet implements Runnable {
 	 * 
 	 */
 	public void paint(Graphics g) {
-		g.drawImage(this.background, MainLoop.firstBackground.getBackgroundX(),
-				MainLoop.firstBackground.getBackgroundY(), this);
-		g.drawImage(this.background,
-				MainLoop.secondBackground.getBackgroundX(),
-				MainLoop.secondBackground.getBackgroundY(), this);
+		this.firstBackground.paint(g, this);
+		this.secondBackground.paint(g, this);
 		Projectiles.paint(g, this);
 		this.mainCharacter.paint(g, this);
 		this.heliBadGuy.paint(g, this);
@@ -170,12 +156,12 @@ public class MainLoop extends Applet implements Runnable {
 	 * handles movement and space bar key presses
 	 */
 
-	public static Background getBackground(int key) {
+	public Background getBackground(int key) {
 		switch (key) {
 		case MainLoop.FIRST_BACKGROUND:
-			return MainLoop.firstBackground;
+			return this.firstBackground;
 		case MainLoop.SECOND_BACKGROUND:
-			return MainLoop.secondBackground;
+			return this.secondBackground;
 		default:
 			return null;
 		}

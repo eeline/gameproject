@@ -2,7 +2,6 @@ package character;
 
 import character.player.PlayerCharacter;
 
-
 public abstract class Position {
 	/**
 	 * character information
@@ -21,7 +20,7 @@ public abstract class Position {
 	 * private movement constants
 	 */
 	protected static final int JUMP_SPEED = -15;
-	protected static final int MOVE_SPEED = 5;
+	public static final int MOVE_SPEED = 5;
 
 	/**
 	 * border constants
@@ -47,7 +46,13 @@ public abstract class Position {
 
 	}
 
+	/**
+	 * 
+	 * <b>IMPORTANT</b> when adding a new class that implements position, pick
+	 * one of the two update methods and deprecate the other
+	 */
 	public abstract void update();
+
 	public abstract void update(long elapsedTime);
 
 	protected void move(final int moveKey) {
@@ -127,11 +132,7 @@ public abstract class Position {
 			return PlayerCharacter.DUCK_SPRITE;
 		} else if (!this.isJumped && !this.isDucking) {
 			return PlayerCharacter.DEFAULT_SPRITE;
-		} else return -1;
-	}
-
-	protected int getGround() {
-		// TODO Auto-generated method stub
-		return 0;
+		} else
+			return -1;
 	}
 }

@@ -31,8 +31,9 @@ public class KeyboardListener implements KeyListener {
 		case KeyEvent.VK_SPACE:
 			character.move(Position.MOVE_ATTACK);
 			break;
+		case KeyEvent.VK_CONTROL:
+			character.move(Position.MOVE_FLY);
 		}
-
 	}
 
 	/** 
