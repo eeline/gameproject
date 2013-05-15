@@ -1,4 +1,4 @@
-package character.npc.weapon;
+package character.weapon;
 
 import java.awt.Graphics;
 import java.awt.image.ImageObserver;

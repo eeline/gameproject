@@ -1,10 +1,8 @@
-package character.npc;
+package character;
 
 import java.awt.Graphics;
 import java.awt.image.ImageObserver;
 
-import character.Attributes;
-import character.Position;
 
 
 

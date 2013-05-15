@@ -1,10 +1,10 @@
-package character.npc.weapon;
+package character.weapon;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.ImageObserver;
 
-import character.npc.NonPlayerCharacter;
+import character.NonPlayerCharacter;
 
 class Projectile extends NonPlayerCharacter {
 	private boolean visible;

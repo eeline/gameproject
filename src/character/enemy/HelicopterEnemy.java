@@ -1,15 +1,15 @@
 /**
  * 
  */
-package character.npc.enemy;
+package character.enemy;
 
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.ImageObserver;
 
 import animationframework.Animation;
-import character.npc.NonPlayerCharacter;
-import character.npc.weapon.Projectiles;
+import character.NonPlayerCharacter;
+import character.weapon.Projectiles;
 
 /**
  * @author ee

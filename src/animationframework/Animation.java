@@ -9,10 +9,9 @@ import java.util.List;
 
 public class Animation {
 	private List<Frame> frames;
-	int count=0;
+	int count = 0;
 	private int currentFrame;
 	private long animationTime;
-	private Image image;
 
 	/**
 	 * both arrays must match and be in order
@@ -26,7 +25,7 @@ public class Animation {
 			this.currentFrame = 0;
 		}
 		this.frames = Collections.synchronizedList(new ArrayList<Frame>());
-		for (int i = 0; i < images.length; i++){
+		for (int i = 0; i < images.length; i++) {
 			this.frames.add(new Frame(images[i], duration[i]));
 			this.count++;
 		}
@@ -47,12 +46,13 @@ public class Animation {
 	public synchronized void paint(Graphics g, ImageObserver ob, int x, int y) {
 		this.frames.get(this.getCurrentFrame()).paint(g, ob, x, y);
 	}
-	private int getCurrentFrame(){
-		if(this.currentFrame >= this.count){
-			this.currentFrame=0;
+
+	private int getCurrentFrame() {
+		if (this.currentFrame >= this.count) {
+			this.currentFrame = 0;
 			return this.currentFrame;
 		}
 		return this.currentFrame;
-			
+
 	}
 }

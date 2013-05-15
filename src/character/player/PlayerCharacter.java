@@ -9,7 +9,7 @@ import main.MainLoop;
 import animationframework.Animation;
 import character.Attributes;
 import character.Position;
-import character.npc.weapon.Projectiles;
+import character.weapon.Projectiles;
 
 public class PlayerCharacter extends Position {
 	private final Attributes attributes;
