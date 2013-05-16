@@ -20,11 +20,8 @@ class Projectile extends NonPlayerCharacter {
 	 * @param visible
 	 *            sets whether the bullet is visible or not
 	 */
-	Projectile(int power, int speed, int startX, int startY, boolean visible) {
-		super(1, power);
-		this.centerX = startX;
-		this.centerY = startY;
-		this.speedX = speed;
+	Projectile(int power, int speed, int x, int y, boolean visible) {
+		super(1, power, x, y, speed,0);
 		this.visible = visible;
 	}
 
@@ -62,7 +59,6 @@ class Projectile extends NonPlayerCharacter {
 
 	@Override
 	public void paint() {
-		System.out.println(Color.BLACK);
 		Painter.paint(this.centerX, this.centerY, 10, 5, Color.BLACK);
 	}
 

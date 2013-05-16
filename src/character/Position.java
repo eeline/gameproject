@@ -47,6 +47,13 @@ public abstract class Position {
 
 	}
 
+	protected Position(int x, int y, int speedX, int speedY) {
+		this.centerX = x;
+		this.centerY = y;
+		this.speedX = speedX;
+		this.speedY = speedY;
+	}
+
 	/**
 	 * 
 	 * <b>IMPORTANT</b> when adding a new class that implements position, pick
@@ -136,8 +143,8 @@ public abstract class Position {
 		} else
 			return -1;
 	}
-	
-	public boolean isBackgroundPaused(){
+
+	public boolean isBackgroundPaused() {
 		return this.isBackgroundPaused;
 	}
 }

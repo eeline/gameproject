@@ -18,10 +18,11 @@ public class MainLoop extends Applet implements Runnable {
 	// auto generated sUID to satisfy the warning gods
 	private static final long serialVersionUID = 1560999524005463670L;
 
-	// important constants that are only needed here
+	private static final String GAME_NAME = "Project Bot"; // title
+	
+	// constants
 	public static final int DIM_X = 800; // frame size info
 	public static final int DIM_Y = 480; // frame size info
-	private static final String GAME_NAME = "Game Name Here"; // title
 	public static final int ELAPSED_TIME = 17; // 17ms gives 60fps, this is a
 												// tick
 
@@ -30,10 +31,10 @@ public class MainLoop extends Applet implements Runnable {
 	private HelicopterEnemy heliBadGuy;
 	private Image image;
 	private Graphics second;
-
-	// imageloader and background
-	private ImageLoader loader;
 	private Background firstBackground, secondBackground;
+	
+	// imageloader
+	private ImageLoader loader;
 
 	/** 
 	 * 

@@ -32,9 +32,7 @@ public class HelicopterEnemy extends NonPlayerCharacter {
 	 */
 	public HelicopterEnemy(final int speedX, final int speedY,
 			final int centerX, final int centerY, final Animation animation) {
-		super(1, 1);
-		super.centerX = centerX;
-		super.centerY = centerY;
+		super(1, 1, centerX, centerY, speedX, speedY);
 		this.initialCenterY = centerY;
 		this.tooHighCenterY = initialCenterY - 80;
 		this.visible = true;
