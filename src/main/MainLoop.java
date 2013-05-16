@@ -105,7 +105,6 @@ public class MainLoop extends Applet implements Runnable {
 	 */
 	@Override
 	public void stop() {
-		// TODO Auto-generated method stub
 		super.stop();
 	}
 
@@ -114,7 +113,6 @@ public class MainLoop extends Applet implements Runnable {
 	 */
 	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
 		super.destroy();
 	}
 
@@ -136,7 +134,6 @@ public class MainLoop extends Applet implements Runnable {
 			try {
 				Thread.sleep(ELAPSED_TIME);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

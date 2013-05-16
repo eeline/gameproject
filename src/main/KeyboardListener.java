@@ -57,9 +57,10 @@ public class KeyboardListener implements KeyListener {
 		}
 	}
 
+	@Deprecated
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
+		// TODO not sure what to do with this yet, instinct is to leave it sit. 
 
 	}
 

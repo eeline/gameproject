@@ -136,12 +136,13 @@ public abstract class Position {
 			return -1;
 	}
 	
+	//TODO implement background pause
 	protected void backgroundPause(){
 		
 	}
-
+	//TODO implement background go
 	public void backgroundGo() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 }

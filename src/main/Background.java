@@ -12,6 +12,16 @@ public class Background {
 
 	public static final int BACKGROUND_LENGTH_X = -2160;
 
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @param image
+	 */
+	
+	/* 
+	 * TODO make background compatible with the animation framework
+	 */
 	public Background(int x, int y, Image image) {
 		this.backgroundX = x;
 		this.backgroundY = y;

@@ -32,11 +32,9 @@ class Projectile extends NonPlayerCharacter {
 	 * sets to invisible, can also be used to assign a new active sprite (eg:
 	 * explosion)
 	 */
-
+	@Deprecated
 	@Override
 	public void die() {
-		this.visible = false;
-		// TODO remove from the container
 
 	}
 
@@ -46,7 +44,6 @@ class Projectile extends NonPlayerCharacter {
 	@Deprecated
 	@Override
 	public void attack() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -72,7 +69,6 @@ class Projectile extends NonPlayerCharacter {
 	@Deprecated
 	@Override
 	public void update(long elapsedTime) {
-		// TODO Auto-generated method stub
 
 	}
 }

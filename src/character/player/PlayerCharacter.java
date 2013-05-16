@@ -124,7 +124,6 @@ public class PlayerCharacter extends Position {
 	@Deprecated
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
 
 	}
 }
