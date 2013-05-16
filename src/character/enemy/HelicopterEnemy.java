@@ -3,8 +3,6 @@
  */
 package character.enemy;
 
-import java.awt.Image;
-
 import animationframework.Animation;
 import character.NonPlayerCharacter;
 import character.weapon.Projectiles;
@@ -26,25 +24,21 @@ public class HelicopterEnemy extends NonPlayerCharacter {
 
 	/**
 	 * 
-	 * @param health
-	 * @param power
 	 * @param speedX
 	 * @param speedY
 	 * @param centerX
 	 * @param centerY
-	 * @param images
-	 * @param durations
+	 * @param animation
 	 */
-	public HelicopterEnemy(final int health, final int power, final int speedX,
-			final int speedY, final int centerX, final int centerY,
-			final Image[] images, final long[] durations) {
-		super(health, power);
+	public HelicopterEnemy(final int speedX, final int speedY,
+			final int centerX, final int centerY, final Animation animation) {
+		super(1, 1);
 		super.centerX = centerX;
 		super.centerY = centerY;
 		this.initialCenterY = centerY;
 		this.tooHighCenterY = initialCenterY - 80;
 		this.visible = true;
-		this.animation = new Animation(images, durations);
+		this.animation = animation;
 	}
 
 	/*
@@ -110,6 +104,6 @@ public class HelicopterEnemy extends NonPlayerCharacter {
 	}
 
 	public void setVisibleBoundary(int visibleBoundary) {
-		this.visible = (this.centerX + this.speedX) <= visibleBoundary +200;
+		this.visible = (this.centerX + this.speedX) <= visibleBoundary + 200;
 	}
 }

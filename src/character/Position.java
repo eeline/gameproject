@@ -135,4 +135,13 @@ public abstract class Position {
 		} else
 			return -1;
 	}
+	
+	protected void backgroundPause(){
+		
+	}
+
+	public void backgroundGo() {
+		// TODO Auto-generated method stub
+		
+	}
 }

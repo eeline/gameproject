@@ -6,6 +6,7 @@ import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Image;
 
+import animationframework.Animation;
 import character.Position;
 import character.enemy.HelicopterEnemy;
 import character.player.PlayerCharacter;
@@ -19,7 +20,8 @@ public class MainLoop extends Applet implements Runnable {
 	public static final int DIM_X = 800; // frame size info
 	public static final int DIM_Y = 480; // frame size info
 	private static final String GAME_NAME = "Game Name Here"; // title
-	public static final int ELAPSED_TIME = 17; //17ms gives 60fps, this is a tick
+	public static final int ELAPSED_TIME = 17; // 17ms gives 60fps, this is a
+												// tick
 
 	// which background is it?
 	public static final int FIRST_BACKGROUND = 0;
@@ -31,7 +33,7 @@ public class MainLoop extends Applet implements Runnable {
 	private Image image;
 	private Graphics second;
 
-	//imageloader and background
+	// imageloader and background
 	private ImageLoader loader;
 	private Background firstBackground, secondBackground;
 
@@ -48,34 +50,41 @@ public class MainLoop extends Applet implements Runnable {
 
 		Frame frame = (Frame) this.getParent().getParent();
 		frame.setTitle(GAME_NAME);
-		
-		//resource initializations
+
+		// resource initializations
 		/*
 		 * animation times (in ms) are set in main loop b/c images are set here
 		 * might be smarter ways of doing this
-		 */	
-		final long[] playerdurations = { 1250, 50, 50, 50 }; 
-		final long[] helidurations = { 50, 50, 50, 50, 50 };
+		 */
 
 		this.firstBackground = new Background(0, 0, this.loader.get(this,
 				ImageLoader.BACKGROUND)[0]);
-		
+
 		this.secondBackground = new Background(Background.BACKGROUND_LENGTH_X,
 				0, this.loader.get(this, ImageLoader.BACKGROUND)[0]);
 
-		this.mainCharacter = new PlayerCharacter(this.loader.get(this,
-				ImageLoader.PLAYER_JUMP_KEY)[0], this.loader.get(this,
-				ImageLoader.PLAYER_DUCK_KEY)[0], this.loader.get(this,
-				ImageLoader.PLAYER_BLINK_ANIMATION_KEY), playerdurations,
-				this.firstBackground, this.secondBackground);
+		final long[] blinkDuration = { 1250, 50, 50, 50 };
+		final long[] jumpDuration = { -1 };
+		final long[] duckDuration = { -1 };
+
+		this.mainCharacter = new PlayerCharacter(new Animation(this.loader.get(
+				this, ImageLoader.PLAYER_BLINK_ANIMATION_KEY), blinkDuration),
+				new Animation(this.loader
+						.get(this, ImageLoader.PLAYER_JUMP_KEY), jumpDuration),
+				new Animation(this.loader
+						.get(this, ImageLoader.PLAYER_DUCK_KEY), duckDuration));
 		/*
-		 * location of heliBadguy on x axis is randomized with magic numbers for now.
-		 * later probably going to have a more involved method of placing badguys based on score. 
+		 * location of heliBadguy on x axis is randomized with magic numbers for
+		 * now. later probably going to have a more involved method of placing
+		 * badguys based on score.
 		 */
-		this.heliBadGuy = new HelicopterEnemy(1, 1, Position.MOVE_SPEED, 0,
-				500 + (int) (1000 * Math.random()), 360, this.loader.get(this,
-						ImageLoader.HELICOPTER_ROTATE_KEY), helidurations);
-		
+
+		final long[] helidurations = { 50, 50, 50, 50, 50 };
+		this.heliBadGuy = new HelicopterEnemy(Position.MOVE_SPEED, 0,
+				500 + (int) (1000 * Math.random()), 360,
+				new Animation(this.loader.get(this,
+						ImageLoader.HELICOPTER_ROTATE_KEY), helidurations));
+
 		this.addKeyListener(new KeyboardListener(this.mainCharacter));
 		Painter.init(this);
 	}
@@ -86,7 +95,7 @@ public class MainLoop extends Applet implements Runnable {
 	@Override
 	public void start() {
 		super.start();
-		
+
 		Thread thread = new Thread(this);
 		thread.start();
 	}
@@ -117,7 +126,8 @@ public class MainLoop extends Applet implements Runnable {
 	public void run() {
 		while (true) {
 			this.mainCharacter.update(ELAPSED_TIME);
-			this.heliBadGuy.setVisibleBoundary(this.mainCharacter.getVisibileBoundary());
+			this.heliBadGuy.setVisibleBoundary(this.mainCharacter
+					.getVisibileBoundary());
 			this.heliBadGuy.update(ELAPSED_TIME);
 			Projectiles.update();
 			this.firstBackground.update();
@@ -131,7 +141,6 @@ public class MainLoop extends Applet implements Runnable {
 			}
 		}
 	}
-	
 
 	/**
 	 * manages double buffering

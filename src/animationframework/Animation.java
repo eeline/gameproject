@@ -12,7 +12,8 @@ public class Animation {
 	private long animationTime;
 
 	/**
-	 * both arrays must match and be in order
+	 * <b>IMPORTANT:</b> A duration of -1 can only be used for the [0] frame, and
+	 * will always play that frame. </n>Both arrays must match and be in order
 	 * 
 	 * @param images
 	 * @param duration
@@ -30,6 +31,11 @@ public class Animation {
 	}
 
 	public synchronized void update(long elapsedTime) {
+		if (this.frames.get(0).getEndTime() == -1) {
+			this.currentFrame = 0;
+			return;
+		}
+
 		if (this.currentFrame >= count)
 			this.currentFrame = 0;
 		if (this.frames.size() > 1)
@@ -51,6 +57,5 @@ public class Animation {
 			return this.currentFrame;
 		}
 		return this.currentFrame;
-
 	}
 }

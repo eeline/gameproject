@@ -1,10 +1,6 @@
 package character.player;
 
-import java.awt.Image;
-
-import main.Background;
 import main.MainLoop;
-import main.Painter;
 import animationframework.Animation;
 import character.Attributes;
 import character.Position;
@@ -13,33 +9,32 @@ import character.weapon.Projectiles;
 public class PlayerCharacter extends Position {
 	@SuppressWarnings("unused")
 	private final Attributes attributes;
-	private Image duckingImage;
-	private Image jumpingImage;
-	private Animation animation;
+	private Animation blink;
+	private Animation jump;
+	private Animation duck;
 	public static final int Y_OFFSET = 61; // related to character
 	public static final int X_OFFSET = 63; // related to character
 
 	public static final int DEFAULT_SPRITE = 0;
 	public static final int JUMP_SPRITE = 1;
 	public static final int DUCK_SPRITE = 2;
-	/**
-	 * background
-	 */
-	private final Background first;
-	private final Background second;
+
 	/**
 	 * projectile constant
 	 */
 	private static final int OFFSET = 50;
 
-	public PlayerCharacter(Image jumpingImage, Image duckingImage,
-			Image[] images, long[] durations, Background b1, Background b2) {
+	/**
+	 * 
+	 * @param blink
+	 * @param jump
+	 * @param duck
+	 */
+	public PlayerCharacter(Animation blink, Animation jump, Animation duck) {
 		this.attributes = new Attributes(10, 10);
-		this.jumpingImage = jumpingImage;
-		this.duckingImage = duckingImage;
-		this.animation = new Animation(images, durations);
-		this.first = b1;
-		this.second = b2;
+		this.duck = duck;
+		this.jump = jump;
+		this.blink = blink;
 	}
 
 	/**
@@ -49,16 +44,14 @@ public class PlayerCharacter extends Position {
 		if (this.speedX < 0)
 			this.centerX += this.speedX;
 		if (this.speedX == 0 || this.speedX < 0) {
-			first.stop();
-			second.stop();
+			super.backgroundPause();
 		}
 
 		if (this.centerX <= SCROLL_BORDER && this.speedX > 0)
 			this.centerX += this.speedX;
 
 		if (this.speedX > 0 && this.centerX > 200) {
-			first.go();
-			second.go();
+			super.backgroundGo();
 		}
 
 		// manage Y transition
@@ -78,7 +71,9 @@ public class PlayerCharacter extends Position {
 		if (this.centerX + this.speedX <= ZERO_BOUND_X)
 			this.centerX = ZERO_BOUND_X + 1;
 
-		this.animation.update(elapsedTime);
+		this.blink.update(elapsedTime);
+		this.jump.update(elapsedTime);
+		this.duck.update(elapsedTime);
 	}
 
 	/**
@@ -104,15 +99,13 @@ public class PlayerCharacter extends Position {
 		final int key = super.positionCheck();
 		switch (key) {
 		case DEFAULT_SPRITE:
-			this.animation.paint(this.centerX - X_OFFSET, this.centerY
-					- Y_OFFSET);
+			this.blink.paint(this.centerX - X_OFFSET, this.centerY - Y_OFFSET);
 			break;
 		case JUMP_SPRITE:
-			Painter.paint(this.jumpingImage, this.centerX - X_OFFSET,
-					this.centerY - Y_OFFSET);
+			this.jump.paint(this.centerX - X_OFFSET, this.centerY - Y_OFFSET);
 			break;
 		case DUCK_SPRITE:
-			Painter.paint(duckingImage, centerX - X_OFFSET, centerY - Y_OFFSET);
+			this.duck.paint(centerX - X_OFFSET, centerY - Y_OFFSET);
 			break;
 		default:
 			return;
@@ -123,8 +116,8 @@ public class PlayerCharacter extends Position {
 		Projectiles.generateProjectile(1, 70, this.centerX + OFFSET,
 				this.centerY - (OFFSET / 2));
 	}
-	
-	public int getVisibileBoundary(){
+
+	public int getVisibileBoundary() {
 		return this.centerX + MainLoop.DIM_X;
 	}
 
