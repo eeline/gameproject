@@ -19,6 +19,7 @@ public class MainLoop extends Applet implements Runnable {
 	public static final int DIM_X = 800; // frame size info
 	public static final int DIM_Y = 480; // frame size info
 	private static final String GAME_NAME = "Game Name Here"; // title
+	public static final int ELAPSED_TIME = 17; //17ms gives 60fps, this is a tick
 
 	// which background is it?
 	public static final int FIRST_BACKGROUND = 0;
@@ -49,8 +50,12 @@ public class MainLoop extends Applet implements Runnable {
 		frame.setTitle(GAME_NAME);
 		
 		//resource initializations
-		long[] playerdurations = { 1250, 50, 50, 50 }; //animation times are set in main loop b/c images are set here
-		long[] helidurations = { 50, 50, 50, 50, 50 };
+		/*
+		 * animation times (in ms) are set in main loop b/c images are set here
+		 * might be smarter ways of doing this
+		 */	
+		final long[] playerdurations = { 1250, 50, 50, 50 }; 
+		final long[] helidurations = { 50, 50, 50, 50, 50 };
 
 		this.firstBackground = new Background(0, 0, this.loader.get(this,
 				ImageLoader.BACKGROUND)[0]);
@@ -63,7 +68,10 @@ public class MainLoop extends Applet implements Runnable {
 				ImageLoader.PLAYER_DUCK_KEY)[0], this.loader.get(this,
 				ImageLoader.PLAYER_BLINK_ANIMATION_KEY), playerdurations,
 				this.firstBackground, this.secondBackground);
-		
+		/*
+		 * location of heliBadguy on x axis is randomized with magic numbers for now.
+		 * later probably going to have a more involved method of placing badguys based on score. 
+		 */
 		this.heliBadGuy = new HelicopterEnemy(1, 1, Position.MOVE_SPEED, 0,
 				500 + (int) (1000 * Math.random()), 360, this.loader.get(this,
 						ImageLoader.HELICOPTER_ROTATE_KEY), helidurations);
@@ -108,15 +116,15 @@ public class MainLoop extends Applet implements Runnable {
 	@Override
 	public void run() {
 		while (true) {
-			this.mainCharacter.update(17);
+			this.mainCharacter.update(ELAPSED_TIME);
 			this.heliBadGuy.setVisibleBoundary(this.mainCharacter.getVisibileBoundary());
-			this.heliBadGuy.update(17);
+			this.heliBadGuy.update(ELAPSED_TIME);
 			Projectiles.update();
 			this.firstBackground.update();
 			this.secondBackground.update();
 			repaint();
 			try {
-				Thread.sleep(17);
+				Thread.sleep(ELAPSED_TIME);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
