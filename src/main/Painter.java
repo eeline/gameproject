@@ -40,7 +40,6 @@ public class Painter {
 		instance.g.drawImage(image, x, y, instance.ob);
 	}
 	/** 
-	 * <b> BUG</b> currently color setting does not affect painted color
 	 * paints an arbitrary quadrilateral
 	 * @param x
 	 * @param y
@@ -48,11 +47,10 @@ public class Painter {
 	 * @param height
 	 * @param c
 	 */
-	//TODO fix color bug
 	public static void paint(int x, int y, int width, int height, Color c){
 		System.out.println(c.toString());
 		instance.g.setColor(c);
-		instance.g.drawRect(x, y, width, height);
+		instance.g.fillRect(x, y, width, height);
 	}
 
 }
