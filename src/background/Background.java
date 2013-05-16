@@ -40,7 +40,7 @@ public class Background extends Position{
 	}
 
 	public void go() {
-		super.speedY = -Position.MOVE_SPEED;
+		super.speedX = -Position.MOVE_SPEED;
 	}
 
 	@Override

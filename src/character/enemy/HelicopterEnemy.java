@@ -63,8 +63,8 @@ public class HelicopterEnemy extends NonPlayerCharacter {
 	@Override
 	public void attack() {
 		if (this.visible)
-			Projectiles.generateProjectile(1, -7, this.centerX,
-					this.centerY + 5);
+			Projectiles.generateProjectile(1, -7, this.centerX-42,
+					this.centerY + 7);
 	}
 
 	@Override
