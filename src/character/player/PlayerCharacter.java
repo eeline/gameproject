@@ -44,14 +44,14 @@ public class PlayerCharacter extends Position {
 		if (this.speedX < 0)
 			this.centerX += this.speedX;
 		if (this.speedX == 0 || this.speedX < 0) {
-			super.backgroundPause();
+			super.isBackgroundPaused = true;
 		}
 
 		if (this.centerX <= SCROLL_BORDER && this.speedX > 0)
 			this.centerX += this.speedX;
 
 		if (this.speedX > 0 && this.centerX > 200) {
-			super.backgroundGo();
+			super.isBackgroundPaused = false;
 		}
 
 		// manage Y transition

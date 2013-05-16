@@ -6,6 +6,8 @@ import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Image;
 
+import background.Background;
+
 import animationframework.Animation;
 import character.Position;
 import character.enemy.HelicopterEnemy;
@@ -22,10 +24,6 @@ public class MainLoop extends Applet implements Runnable {
 	private static final String GAME_NAME = "Game Name Here"; // title
 	public static final int ELAPSED_TIME = 17; // 17ms gives 60fps, this is a
 												// tick
-
-	// which background is it?
-	public static final int FIRST_BACKGROUND = 0;
-	public static final int SECOND_BACKGROUND = 1;
 
 	// component objects that need to be updated and maintained
 	private PlayerCharacter mainCharacter;
@@ -53,15 +51,17 @@ public class MainLoop extends Applet implements Runnable {
 
 		// resource initializations
 		/*
-		 * animation times (in ms) are set in main loop b/c images are set here
-		 * might be smarter ways of doing this
+		 * TODO set animation times and image locations in XML files, load
+		 * through ImageLoader framework
 		 */
-
-		this.firstBackground = new Background(0, 0, this.loader.get(this,
-				ImageLoader.BACKGROUND)[0]);
+		long[] backgroundDuration = { -1 };
+		this.firstBackground = new Background(0, 0, new Animation(
+				this.loader.get(this, ImageLoader.BACKGROUND),
+				backgroundDuration));
 
 		this.secondBackground = new Background(Background.BACKGROUND_LENGTH_X,
-				0, this.loader.get(this, ImageLoader.BACKGROUND)[0]);
+				0, new Animation(this.loader.get(this, ImageLoader.BACKGROUND),
+						backgroundDuration));
 
 		final long[] blinkDuration = { 1250, 50, 50, 50 };
 		final long[] jumpDuration = { -1 };
@@ -124,6 +124,13 @@ public class MainLoop extends Applet implements Runnable {
 	public void run() {
 		while (true) {
 			this.mainCharacter.update(ELAPSED_TIME);
+			if (this.mainCharacter.isBackgroundPaused()) {
+				this.firstBackground.stop();
+				this.secondBackground.stop();
+			} else {
+				this.firstBackground.go();
+				this.secondBackground.go();
+			}
 			this.heliBadGuy.setVisibleBoundary(this.mainCharacter
 					.getVisibileBoundary());
 			this.heliBadGuy.update(ELAPSED_TIME);
@@ -159,7 +166,7 @@ public class MainLoop extends Applet implements Runnable {
 	}
 
 	/**
-	 * 
+	 * handles paint calls
 	 */
 	@Override
 	public void paint(Graphics g) {
@@ -171,20 +178,4 @@ public class MainLoop extends Applet implements Runnable {
 		this.heliBadGuy.paint();
 
 	}
-
-	/**
-	 * handles movement and space bar key presses
-	 */
-
-	public Background getBackground(int key) {
-		switch (key) {
-		case MainLoop.FIRST_BACKGROUND:
-			return this.firstBackground;
-		case MainLoop.SECOND_BACKGROUND:
-			return this.secondBackground;
-		default:
-			return null;
-		}
-	}
-
 }

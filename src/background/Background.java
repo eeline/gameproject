@@ -1,14 +1,13 @@
-package main;
+package background;
 
-import java.awt.Image;
-
+import animationframework.Animation;
 import character.Position;
 
 public class Background {
 	private int backgroundX;
 	private final int backgroundY;
 	private int backgroundSpeedX;
-	private Image image;
+	private Animation animation;
 
 	public static final int BACKGROUND_LENGTH_X = -2160;
 
@@ -22,11 +21,11 @@ public class Background {
 	/* 
 	 * TODO make background compatible with the animation framework
 	 */
-	public Background(int x, int y, Image image) {
+	public Background(int x, int y, Animation animation) {
 		this.backgroundX = x;
 		this.backgroundY = y;
 		this.backgroundSpeedX = 0;
-		this.image = image;
+		this.animation = animation;
 	}
 
 	public void update() {
@@ -38,7 +37,7 @@ public class Background {
 	}
 
 	public void paint() {
-		Painter.paint(image, this.backgroundX, this.backgroundY);
+		this.animation.paint(this.backgroundX, this.backgroundY);
 	}
 
 	public void stop() {
