@@ -21,7 +21,7 @@ public class HelicopterEnemy extends NonPlayerCharacter {
 	private final int tooHighCenterY;
 	private boolean visible;
 	private Animation animation;
-
+	//TODO implement visible check for right side X that turns off projectile firing and painting
 
 	/**
 	 * 

@@ -65,6 +65,7 @@ class Projectile extends NonPlayerCharacter {
 
 	@Override
 	public void paint() {
+		System.out.println(Color.BLACK);
 		Painter.paint(this.centerX, this.centerY, 10, 5, Color.BLACK);
 	}
 

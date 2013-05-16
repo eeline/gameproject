@@ -14,7 +14,7 @@ public class Painter {
 		this.ob = ob;
 	}
 	/**
-	 * should only be called in main loop at start
+	 * should only be called in main loop at init()
 	 * @param ob
 	 */
 	protected static void init(ImageObserver ob){
@@ -23,7 +23,7 @@ public class Painter {
 	}
 	
 	/**
-	 * should be called every time a buffer is deployed
+	 * should be called every time a buffer is being initialized
 	 * @param g
 	 */
 	protected static void setG(Graphics g){
@@ -50,6 +50,7 @@ public class Painter {
 	 */
 	//TODO fix color bug
 	public static void paint(int x, int y, int width, int height, Color c){
+		System.out.println(c.toString());
 		instance.g.setColor(c);
 		instance.g.drawRect(x, y, width, height);
 	}
