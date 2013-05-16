@@ -3,6 +3,7 @@ package character.player;
 import java.awt.Image;
 
 import main.Background;
+import main.MainLoop;
 import main.Painter;
 import animationframework.Animation;
 import character.Attributes;
@@ -10,6 +11,7 @@ import character.Position;
 import character.weapon.Projectiles;
 
 public class PlayerCharacter extends Position {
+	@SuppressWarnings("unused")
 	private final Attributes attributes;
 	private Image duckingImage;
 	private Image jumpingImage;
@@ -120,6 +122,10 @@ public class PlayerCharacter extends Position {
 	public void attack() {
 		Projectiles.generateProjectile(1, 70, this.centerX + OFFSET,
 				this.centerY - (OFFSET / 2));
+	}
+	
+	public int getVisibileBoundary(){
+		return this.centerX + MainLoop.DIM_X;
 	}
 
 	@Deprecated

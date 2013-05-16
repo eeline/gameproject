@@ -29,9 +29,8 @@ public class MainLoop extends Applet implements Runnable {
 	private HelicopterEnemy heliBadGuy;
 	private Image image;
 	private Graphics second;
-	/**
-	 * URL base is the document base
-	 */
+
+	//imageloader and background
 	private ImageLoader loader;
 	private Background firstBackground, secondBackground;
 
@@ -110,6 +109,7 @@ public class MainLoop extends Applet implements Runnable {
 	public void run() {
 		while (true) {
 			this.mainCharacter.update(17);
+			this.heliBadGuy.setVisibleBoundary(this.mainCharacter.getVisibileBoundary());
 			this.heliBadGuy.update(17);
 			Projectiles.update();
 			this.firstBackground.update();
@@ -123,6 +123,7 @@ public class MainLoop extends Applet implements Runnable {
 			}
 		}
 	}
+	
 
 	/**
 	 * manages double buffering

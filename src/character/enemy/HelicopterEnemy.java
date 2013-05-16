@@ -15,13 +15,14 @@ import character.weapon.Projectiles;
  */
 public class HelicopterEnemy extends NonPlayerCharacter {
 	private long durationCount = 0;
-	private Image image;
 	private boolean alternate = true;
 	private final int initialCenterY;
 	private final int tooHighCenterY;
 	private boolean visible;
 	private Animation animation;
-	//TODO implement visible check for right side X that turns off projectile firing and painting
+
+	// TODO implement visible check for right side X that turns off projectile
+	// firing and painting
 
 	/**
 	 * 
@@ -69,17 +70,15 @@ public class HelicopterEnemy extends NonPlayerCharacter {
 	 */
 	@Override
 	public void attack() {
-		Projectiles.generateProjectile(1, -7, this.centerX,
-				this.centerY+5);
-	}
-
-	public Image getImage() {
-		return image;
+		if (this.visible)
+			Projectiles.generateProjectile(1, -7, this.centerX,
+					this.centerY + 5);
 	}
 
 	@Override
 	public void paint() {
-		this.animation.paint(this.centerX - 48, this.centerY - 48);
+		if (this.visible)
+			this.animation.paint(this.centerX - 48, this.centerY - 48);
 	}
 
 	@Override
@@ -108,5 +107,9 @@ public class HelicopterEnemy extends NonPlayerCharacter {
 			this.durationCount = 0;
 			this.attack();
 		}
+	}
+
+	public void setVisibleBoundary(int visibleBoundary) {
+		this.visible = (this.centerX + this.speedX) <= visibleBoundary +200;
 	}
 }

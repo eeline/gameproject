@@ -48,7 +48,6 @@ public class Painter {
 	 * @param c
 	 */
 	public static void paint(int x, int y, int width, int height, Color c){
-		System.out.println(c.toString());
 		instance.g.setColor(c);
 		instance.g.fillRect(x, y, width, height);
 	}
