@@ -1,6 +1,6 @@
 package background;
 
-import animationframework.Animation;
+import animation.Animation;
 import character.Position;
 
 public class Background extends Position{
@@ -40,9 +40,12 @@ public class Background extends Position{
 	}
 
 	public void go() {
-		super.speedX = -Position.MOVE_SPEED;
+		super.speedX = -Position.MOVE_SPEED/5;
 	}
-
+	
+	public boolean isStopped(){
+		return this.speedX ==0;
+	}
 	@Override
 	@Deprecated
 	public void update(long elapsedTime) {

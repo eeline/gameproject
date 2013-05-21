@@ -12,7 +12,7 @@ public abstract class Position {
 	protected boolean isMovingLeft = false;
 	protected boolean isMovingRight = false;
 	protected boolean isDucking = false;
-	protected boolean isBackgroundPaused = false;
+	protected static boolean isBackgroundPaused = false;
 	protected int speedX = 0;
 	protected int speedY = 1;
 
@@ -145,6 +145,6 @@ public abstract class Position {
 	}
 
 	public boolean isBackgroundPaused() {
-		return this.isBackgroundPaused;
+		return isBackgroundPaused;
 	}
 }

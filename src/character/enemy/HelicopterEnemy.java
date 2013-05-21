@@ -3,7 +3,7 @@
  */
 package character.enemy;
 
-import animationframework.Animation;
+import animation.Animation;
 import character.NonPlayerCharacter;
 import character.weapon.Projectiles;
 

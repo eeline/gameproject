@@ -1,7 +1,7 @@
 package character.player;
 
 import main.MainLoop;
-import animationframework.Animation;
+import animation.Animation;
 import character.Attributes;
 import character.Position;
 import character.weapon.Projectiles;

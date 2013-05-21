@@ -9,7 +9,7 @@ class ImageLoader {
 	private static final String PLAYER_BASE = "data/playercharacter/";
 	private static final String HELICOPTER_BASE = "data/enemy/helicopter/";
 	private static final String BACKGROUND_BASE = "data/background/";
-	private static final String TILE_BASE = "data/tile/";
+	private static final String TILE_BASE = "data/tiles/";
 
 	static final int PLAYER_BLINK_ANIMATION_KEY = 0;
 	static final int PLAYER_JUMP_KEY = 1;
@@ -60,13 +60,16 @@ class ImageLoader {
 					ImageLoader.BACKGROUND_BASE + "background.png") };
 			return background;
 		case TILE_BACKGROUND:
-			Image[] tileBackground = {applet.getImage(base, ImageLoader.TILE_BASE +"background.png")};
+			Image[] tileBackground = { applet.getImage(base,
+					ImageLoader.TILE_BASE + "background.png") };
 			return tileBackground;
 		case TILE_OCEAN:
-			Image[] tileOcean = {applet.getImage(base, ImageLoader.TILE_BASE + "tileocean.png")};
+			Image[] tileOcean = { applet.getImage(base, ImageLoader.TILE_BASE
+					+ "tileocean.png") };
 			return tileOcean;
-		case TILE_DIRT: 
-			Image[] tileDirt = {applet.getImage(base, TILE_BASE + "tiledirt.png")};
+		case TILE_DIRT:
+			Image[] tileDirt = { applet.getImage(base, TILE_BASE
+					+ "tiledirt.png") };
 			return tileDirt;
 		default:
 			return null;

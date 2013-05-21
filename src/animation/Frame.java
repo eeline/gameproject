@@ -1,4 +1,4 @@
-package animationframework;
+package animation;
 
 import java.awt.Image;
 

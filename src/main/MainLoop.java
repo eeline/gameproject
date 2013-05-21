@@ -6,9 +6,9 @@ import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Image;
 
+import animation.Animation;
 import background.Background;
-
-import animationframework.Animation;
+import background.Tiles;
 import character.Position;
 import character.enemy.HelicopterEnemy;
 import character.player.PlayerCharacter;
@@ -19,7 +19,7 @@ public class MainLoop extends Applet implements Runnable {
 	private static final long serialVersionUID = 1560999524005463670L;
 
 	private static final String GAME_NAME = "Project Bot"; // title
-	
+
 	// constants
 	public static final int DIM_X = 800; // frame size info
 	public static final int DIM_Y = 480; // frame size info
@@ -32,7 +32,8 @@ public class MainLoop extends Applet implements Runnable {
 	private Image image;
 	private Graphics second;
 	private Background firstBackground, secondBackground;
-	
+	private Tiles tiles;
+
 	// imageloader
 	private ImageLoader loader;
 
@@ -57,12 +58,12 @@ public class MainLoop extends Applet implements Runnable {
 		 */
 		long[] backgroundDuration = { -1 };
 		this.firstBackground = new Background(0, 0, new Animation(
-				this.loader.get(this, ImageLoader.BACKGROUND),
+				this.loader.get(this, ImageLoader.TILE_BACKGROUND),
 				backgroundDuration));
 
 		this.secondBackground = new Background(Background.BACKGROUND_LENGTH_X,
-				0, new Animation(this.loader.get(this, ImageLoader.BACKGROUND),
-						backgroundDuration));
+				0, new Animation(this.loader.get(this,
+						ImageLoader.TILE_BACKGROUND), backgroundDuration));
 
 		final long[] blinkDuration = { 1250, 50, 50, 50 };
 		final long[] jumpDuration = { -1 };
@@ -86,6 +87,13 @@ public class MainLoop extends Applet implements Runnable {
 				new Animation(this.loader.get(this,
 						ImageLoader.HELICOPTER_ROTATE_KEY), helidurations));
 
+		long[] dirtDuration = { -1 };
+		long[] oceanDuration = { -1 };
+		this.tiles = Tiles.get(
+				new Animation(this.loader.get(this, ImageLoader.TILE_DIRT),
+						dirtDuration),
+				new Animation(this.loader.get(this, ImageLoader.TILE_OCEAN),
+						oceanDuration));
 		this.addKeyListener(new KeyboardListener(this.mainCharacter));
 		Painter.init(this);
 	}
@@ -138,6 +146,7 @@ public class MainLoop extends Applet implements Runnable {
 			Projectiles.update();
 			this.firstBackground.update();
 			this.secondBackground.update();
+			tiles.update();
 			repaint();
 			try {
 				Thread.sleep(ELAPSED_TIME);
@@ -175,8 +184,9 @@ public class MainLoop extends Applet implements Runnable {
 		this.firstBackground.paint();
 		this.secondBackground.paint();
 		Projectiles.paint();
-		this.mainCharacter.paint();
 		this.heliBadGuy.paint();
+		tiles.paint();
+		this.mainCharacter.paint();
 
 	}
 }
